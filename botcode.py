@@ -18,7 +18,7 @@ async def on_ready():
 
 
 @client.event
-async def on_member_join(ctx, member: discord.Member):
+async def on_member_join(ctx, member):
     if ctx.guild.id == 679781666423570480:
         channel = client.get_channel(715991568179265536)
         await channel.send(f'Welcome {member}! To gain access to the rest of the server, '
