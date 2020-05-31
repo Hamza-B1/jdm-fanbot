@@ -3,9 +3,11 @@ from discord.ext import commands
 import discord.utils
 import json
 
-client = discord.Client()
+main_client = discord.Client()
 
 client = commands.Bot(command_prefix=';;')
+
+client.remove_command('help')
 
 jdm_id = 292626856509964288
 
