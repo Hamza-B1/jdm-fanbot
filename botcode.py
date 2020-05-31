@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import discord.utils
-import json
+from discord.utils import get
 
 main_client = discord.Client()
 
@@ -12,25 +12,19 @@ client.remove_command('help')
 jdm_id = 292626856509964288
 
 
-@client.command()
-async def update(ctx, *, input):
-    with open('project.json', 'r+') as f:
-        messagetest = json.load(f)
-        messagetest.append({"Message": input})
-        json.dump(messagetest, f)
-        await ctx.send('Log updated')
-
-
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
+
 @client.event
-async def on_member_join(ctx, member = discord.Member):
+async def on_member_join(ctx, member=discord.Member):
     if ctx.guild.id == 679781666423570480:
-        ctx.send(f'Welcome {member}! To gain access to the rest of the server, you need to talk here for a little while'
-                 f'to level up. Enjoy your stay :sunglasses::metal:')
+        channel = await client.get_channel(715991568179265536)
+        await channel.send(f'Welcome {member}! To gain access to the rest of the server, '
+                           f'you need to talk here for a little while '
+                           f'to level up. Enjoy your stay :sunglasses::metal:')
 
 
 @client.event
@@ -108,6 +102,7 @@ async def silence(ctx, member: discord.Member, *, reason=None):
             await member.remove_roles(role1)
     await ctx.send(f'{member} was muted. Reason: {reason}')
 
+
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def unsilence(ctx, member: discord.Member):
@@ -119,9 +114,9 @@ async def unsilence(ctx, member: discord.Member):
             await member.add_roles(role1)
     await ctx.send(f'{member} was unmuted.')
 
+
 @client.command()
 async def halaqa(ctx):
-
     for role in ctx.author.roles:
         if role.name == 'Halaqa':
             await ctx.send('You already have this role!')
@@ -130,6 +125,7 @@ async def halaqa(ctx):
         if role1.name == 'Halaqa':
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Halaqa role.')
+
 
 @client.command()
 async def students(ctx):
@@ -141,7 +137,6 @@ async def students(ctx):
         if role1.name == 'Students':
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Student role.')
-
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
