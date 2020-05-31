@@ -26,6 +26,12 @@ async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
+@client.event
+async def on_member_join(ctx, member = discord.Member):
+    if ctx.guild.id == 679781666423570480:
+        ctx.send(f'Welcome {member}! To gain access to the rest of the server, you need to talk here for a little while'
+                 f'to level up. Enjoy your stay :sunglasses::metal:')
+
 
 @client.event
 async def on_message_delete(ctx):
