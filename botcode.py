@@ -111,4 +111,18 @@ async def unsilence(ctx, member: discord.Member):
             await member.add_roles(role1)
     await ctx.send(f'{member} was unmuted.')
 
+@client.command()
+async def halaqa(ctx):
+    for role in ctx.author.roles:
+        if role.name == 'Halaqa':
+            await ctx.send('You already have this role!')
+        else:
+            for role1 in ctx.guild.roles:
+                if role1.name == 'Halaqa':
+                    await ctx.author.add_roles(role1)
+                    await ctx.send('You now have the Halaqa role.')
+
+
+
+
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
