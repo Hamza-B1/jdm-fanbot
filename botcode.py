@@ -116,12 +116,11 @@ async def halaqa(ctx):
     for role in ctx.author.roles:
         if role.name == 'Halaqa':
             await ctx.send('You already have this role!')
-
-    else:
-        for role1 in ctx.guild.roles:
-            if role1.name == 'Halaqa':
-                await ctx.author.add_roles(role1)
-                await ctx.send('You now have the Halaqa role.')
+            return
+    for role1 in ctx.guild.roles:
+        if role1.name == 'Halaqa':
+            await ctx.author.add_roles(role1)
+            await ctx.send('You now have the Halaqa role.')
 
 
 
