@@ -5,7 +5,7 @@ import json
 
 client = discord.Client()
 
-client = commands.Bot(command_prefix='£')
+client = commands.Bot(command_prefix=';;')
 
 jdm_id = 292626856509964288
 
@@ -113,6 +113,7 @@ async def unsilence(ctx, member: discord.Member):
 
 @client.command()
 async def halaqa(ctx):
+
     for role in ctx.author.roles:
         if role.name == 'Halaqa':
             await ctx.send('You already have this role!')
@@ -122,6 +123,16 @@ async def halaqa(ctx):
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Halaqa role.')
 
+@client.command()
+async def students(ctx):
+    for role in ctx.author.roles:
+        if role.name == 'Students':
+            await ctx.send('You already have this role!')
+            return
+    for role1 in ctx.guild.roles:
+        if role1.name == 'Students':
+            await ctx.author.add_roles(role1)
+            await ctx.send('You now have the Student role.')
 
 
 
