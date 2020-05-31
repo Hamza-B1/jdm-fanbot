@@ -18,12 +18,13 @@ async def on_ready():
 
 
 @client.event
-async def on_member_join(ctx, member: discord.Member):
-    if ctx.guild.id == 679781666423570480:
-        channel = client.get_channel(715991568179265536)
-        await channel.send(f'Welcome {member}! To gain access to the rest of the server, '
-                           f'you need to talk here for a little while '
-                           f'to level up. Enjoy your stay :sunglasses::metal:')
+async def on_member_join(ctx, member: discord.Member = None):
+    if member:
+        if ctx.guild.id == 679781666423570480:
+            channel = client.get_channel(715991568179265536)
+            await channel.send(f'Welcome {member}! To gain access to the rest of the server, '
+                               f'you need to talk here for a little while '
+                               f'to level up. Enjoy your stay :sunglasses::metal:')
 
 
 @client.event
