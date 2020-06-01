@@ -20,7 +20,7 @@ async def on_message(message):
     if message.author.id == 433668313563004928:
         return
     else:
-        if message.casefold().startswith('man said'):
+        if str(message).casefold().startswith('man said'):
             await message.channel.send('man said' + message)
 
 @client.event
