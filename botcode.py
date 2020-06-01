@@ -10,12 +10,18 @@ client.remove_command('help')
 
 jdm_id = 292626856509964288
 
-
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
+@client.event
+async def on_message(ctx, message):
+    if message.author.id == 433668313563004928:
+        return
+    else:
+        if message.casefold().startswith('man said'):
+            await ctx.send('man said' + message)
 
 @client.event
 async def on_member_join(member):
@@ -135,6 +141,8 @@ async def students(ctx):
         if role1.name == 'Students':
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Student role.')
+
+
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
