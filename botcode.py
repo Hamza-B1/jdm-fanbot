@@ -16,12 +16,12 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
 @client.event
-async def on_message(ctx, message):
+async def on_message(message):
     if message.author.id == 433668313563004928:
         return
     else:
         if message.casefold().startswith('man said'):
-            await ctx.send('man said' + message)
+            await message.channel.send('man said' + message)
 
 @client.event
 async def on_member_join(member):
