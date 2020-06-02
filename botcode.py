@@ -96,10 +96,40 @@ async def silence(ctx, member: discord.Member, *, reason=None):
     for role in ctx.guild.roles:
         if role.name == 'Muted':
             await member.add_roles(role)
-    for role1 in ctx.guild.roles:
-        if role1.name == 'Zumalaa':
-            await member.remove_roles(role1)
-    await ctx.send(f'{member} was muted. Reason: {reason}')
+            await ctx.send(f'{member} was muted. Reason: {reason}')
+
+
+
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def mute(ctx, member: discord.Member, *, reason=None):
+    for role in ctx.guild.roles:
+        if role.name == 'Muted':
+            await member.add_roles(role)
+        await ctx.send(f'{member} was muted. Reason: {reason}')
+        embed = discord.Embed(title=f'{member} Muted:', description=f'Reason : {reason}\n\n Shut the hell your mouth'
+                              , colour=discord.Colour.dark_red())
+        await ctx.send(embed=embed)
+        for channel in ctx.guild.text_channels:
+            if channel.name == 'logs':
+                embed2 = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}')
+                embed2.set_thumbnail(url=member.avatar_url)
+                await ctx.send(embed=embed2)
+
+
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def unmute(ctx, member: discord.Member):
+    for role in ctx.guild.roles:
+        if role.name == 'Muted':
+            await member.remove_roles(role)
+        embed = discord.Embed(title=f'{member} Unmuted')
+        await ctx.send(embed=embed)
+        for channel in ctx.guild.text_channels:
+            if channel.name == 'logs':
+                embed2 = discord.Embed(title=f'{member} Unmuted by {ctx.author}')
+                embed2.set_thumbnail(url=member.avatar_url)
+                await ctx.send(embed=embed2)
 
 
 @client.command()
