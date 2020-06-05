@@ -107,7 +107,7 @@ async def rolelist(ctx, *, role):
     if role.lower() in map(lambda x:x.name.lower(), ctx.guild.roles):
         for member in ctx.guild.members:
             for its_roles in member.roles:
-                if its_roles.name.casefold() == role.casefold():
+                if its_roles.name.lower() == role.lower():
                     peeps.append(f'{member}')
         else:
             embed = discord.Embed(title=f'Role Listing for {role} ', description='\n'.join(peeps),
