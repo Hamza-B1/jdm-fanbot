@@ -108,11 +108,12 @@ async def rolelist(ctx, *, role):
         for member in ctx.guild.members:
             for its_roles in member.roles:
                 if its_roles.name.lower() == role.lower():
+                    roles_match = its_roles
                     peeps.append(f'{member}')
-        else:
-            embed = discord.Embed(title=f'Role Listing for {role} ', description='\n'.join(peeps),
-                                  colour=discord.Colour.dark_red())
-            await ctx.send(embed=embed)
+
+        embed = discord.Embed(title=f'Role Listing for {roles_match} ', description='\n'.join(peeps),
+                              colour=discord.Colour.dark_red())
+        await ctx.send(embed=embed)
     else:
         embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
         await ctx.send(embed=embed2)
