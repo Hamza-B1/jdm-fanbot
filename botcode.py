@@ -91,6 +91,18 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 
 @client.command()
+async def get(ctx, *, role):
+    for i in range(len(ctx.guild.roles)):
+        if role == ctx.guild.roles[i].name:
+            await ctx.send('successful')
+        else:
+            await ctx.send('role doesn\'t exist')
+
+
+
+
+
+@client.command()
 async def rolelist(ctx, *, role):
     peeps = []
     if role in ctx.guild.roles:
@@ -105,6 +117,7 @@ async def rolelist(ctx, *, role):
     else:
         embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
         await ctx.send(embed=embed2)
+
 
 
 @client.command()
