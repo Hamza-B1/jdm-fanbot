@@ -95,7 +95,7 @@ async def get(ctx, *, role):
     for i in range(len(ctx.guild.roles)):
         if role == ctx.guild.roles[i].name:
             await ctx.send('successful')
-            break
+
 
 
 
@@ -104,7 +104,7 @@ async def get(ctx, *, role):
 @client.command()
 async def rolelist(ctx, *, role):
     peeps = []
-    if role in ctx.guild.roles:
+    if role.lower() in map(lambda x:x.name.lower(), ctx.guild.roles):
         for member in ctx.guild.members:
             for its_roles in member.roles:
                 if its_roles.name.casefold() == role.casefold():
