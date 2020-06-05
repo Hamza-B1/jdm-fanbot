@@ -95,8 +95,9 @@ async def rolelist(ctx, *, role):
     peeps = []
     for member in ctx.guild.members:
         if role in member.roles:
-            peeps += member
-    await ctx.send(peeps)
+            peeps = peeps.append(member)
+    else:
+        await ctx.send(peeps)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
