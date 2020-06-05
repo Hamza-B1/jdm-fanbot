@@ -95,10 +95,11 @@ async def rolelist(ctx, *, role):
     peeps = []
     for member in ctx.guild.members:
         for its_roles in member.roles:
-            if its_roles.name == role:
+            if its_roles.name.casefold() == role.casefold():
                 peeps.append(f'{member}')
     else:
-        await ctx.send('\n'.join(peeps))
+        embed = discord.Embed(title=f'Role Listing for {role} ', description='\n'.join(peeps))
+        await ctx.send(embed=embed)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
