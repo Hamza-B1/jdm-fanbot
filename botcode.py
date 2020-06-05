@@ -92,11 +92,11 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 async def rolelist(ctx, *, role):
-    peeps = []
+    peeps = ['']
     for member in ctx.guild.members:
         for its_roles in member.roles:
             if its_roles.name == role:
-                peeps = peeps.append(member)
+                peeps = peeps.append(str(member))
     else:
         await ctx.send(peeps)
 
