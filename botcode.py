@@ -95,8 +95,7 @@ async def get(ctx, *, role):
     for i in range(len(ctx.guild.roles)):
         if role == ctx.guild.roles[i].name:
             await ctx.send('successful')
-        else:
-            await ctx.send('role doesn\'t exist')
+            break
 
 
 
