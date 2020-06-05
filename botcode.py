@@ -92,13 +92,13 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 async def rolelist(ctx, *, role):
-    peeps = ['']
+    peeps = []
     for member in ctx.guild.members:
         for its_roles in member.roles:
             if its_roles.name == role:
                 peeps.append(f'{member}')
     else:
-        await ctx.send(peeps)
+        await ctx.send('\n'.join(peeps))
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
