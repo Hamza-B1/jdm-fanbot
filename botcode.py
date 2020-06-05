@@ -94,8 +94,9 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def rolelist(ctx, *, role):
     peeps = []
     for member in ctx.guild.members:
-        if role in member.roles:
-            peeps = peeps.append(member)
+        for its_roles in member.roles:
+            if its_roles.name == role:
+                peeps = peeps.append(member)
     else:
         await ctx.send(peeps)
 
