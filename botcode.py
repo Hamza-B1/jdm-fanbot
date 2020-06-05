@@ -93,13 +93,19 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 @client.command()
 async def rolelist(ctx, *, role):
     peeps = []
-    for member in ctx.guild.members:
-        for its_roles in member.roles:
-            if its_roles.name.casefold() == role.casefold():
-                peeps.append(f'{member}')
+    if not ctx.guild.roles.count(role):
+        for member in ctx.guild.members:
+            for its_roles in member.roles:
+                if its_roles.name.casefold() == role.casefold():
+                    peeps.append(f'{member}')
+        else:
+            embed = discord.Embed(title=f'Role Listing for {role} ', description='\n'.join(peeps),
+                                  colour=discord.Colour.dark_red())
+            await ctx.send(embed=embed)
     else:
-        embed = discord.Embed(title=f'Role Listing for {role} ', description='\n'.join(peeps))
-        await ctx.send(embed=embed)
+        embed2 = discord.Embed(title='', description=f'Role {role} not found')
+        await ctx.send(embed=embed2)
+
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
