@@ -96,7 +96,7 @@ async def rolelist(ctx, *, role):
     for member in ctx.guild.members:
         for its_roles in member.roles:
             if its_roles.name == role:
-                peeps = peeps.append(str(member))
+                peeps.append(member)
     else:
         await ctx.send(peeps)
 
