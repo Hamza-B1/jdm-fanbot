@@ -21,7 +21,7 @@ async def on_ready():
 @client.event
 async def on_raw_reaction_add(ctx):
     if ctx.message_id == 719243519495110756:
-        if ctx.emoji.name == ':pensive:':
+        if ctx.emoji.name == ':regional_indicator_h:':
             await ctx.member.send(ctx.emoji)
         else:
             await ctx.member.send('failed')
