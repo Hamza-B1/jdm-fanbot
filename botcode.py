@@ -22,9 +22,10 @@ async def on_ready():
 async def on_raw_reaction_add(ctx):
     guild = client.get_guild(ctx.guild_id)
     if ctx.message_id == 719243519495110756:
-        role = discord.utils.get(guild.roles, name='Thot')
+        role = discord.utils.get(guild.roles, name='stupid purple role')
         await ctx.member.add_roles(role)
     await ctx.member.send(f'You have been given the role')
+    await ctx.member.send(str(ctx.emoji.name))
 
 
 @client.event
