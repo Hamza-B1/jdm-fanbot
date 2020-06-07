@@ -12,6 +12,7 @@ client.remove_command('help')
 jdm_id = 292626856509964288
 
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -20,8 +21,9 @@ async def on_ready():
 @client.event
 async def on_raw_reaction_add(ctx):
     role_reacts = {'pensive': 484078560605241367}
+    guild = client.get_guild(ctx.guild_id)
     if ctx.message_id == 719243519495110756:
-        ctx.member.add_roles(discord.utils.get(role_reacts[str(ctx.emoji.name)]))
+        ctx.member.add_roles(guild.get_roles(role_reacts[str(ctx.emoji.name)]))
     await ctx.member.send(f'You have been given the role')
 
 @client.event
