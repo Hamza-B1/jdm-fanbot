@@ -23,7 +23,7 @@ async def on_raw_reaction_add(ctx):
     if ctx.message_id == 719243519495110756:
         if role_reacts.get(ctx.emoji):
             ctx.member.add_roles(discord.utils.get(role_reacts[ctx.emoji]))
-    await ctx.member.send(f'You have been given the {discord.utils.get(role_reacts[ctx.emoji]).name}')
+    await ctx.member.send(f'You have been given the role')
 
 
 @client.event
