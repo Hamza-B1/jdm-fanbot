@@ -19,7 +19,7 @@ async def on_ready():
 
 @client.event
 async def on_raw_reaction_add(ctx):
-    if ctx.guild.id == 455068921251364875:
+    if ctx.guild_id == 455068921251364875:
         if ctx.message_id == 719210861364903976:
             print('reaction worked')
 
