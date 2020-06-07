@@ -21,7 +21,7 @@ async def on_ready():
 async def on_raw_reaction_add(ctx):
     if ctx.guild.id == 455068921251364875:
         if ctx.message_id == 719210861364903976:
-            await ctx.send('reaction worked')
+            print('reaction worked')
 
 
 
