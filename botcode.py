@@ -25,7 +25,7 @@ async def on_raw_reaction_add(ctx):
         role = discord.utils.get(guild.roles, name='stupid purple role')
         await ctx.member.add_roles(role)
         await ctx.member.send(f'You have been given the role')
-        await ctx.member.send(ctx.emoji.name)
+        await ctx.member.send(ctx.emoji)
 
 
 @client.event
