@@ -17,6 +17,13 @@ async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
+@client.event
+async def on_raw_reaction_add(ctx):
+    if ctx.guild.id == 455068921251364875:
+        if ctx.message_id == 719210861364903976:
+            await ctx.send('reaction worked')
+
+
 
 @client.event
 async def on_member_join(member):
