@@ -117,11 +117,10 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         if i.name == 'Muted':
             await ctx.send(f'{member} is already muted.')
             break
-        else:
-            muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
-            await member.add_roles(muted_role)
-            await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
-            break
+    else:
+        muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
+        await member.add_roles(muted_role)
+        await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
 
 
 @client.command()
