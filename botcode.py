@@ -131,7 +131,7 @@ async def halaqa(ctx):
             break
     halaqa_role = discord.utils.get(ctx.guild.roles, name='Halaqa')
     await ctx.author.add_roles(halaqa_role)
-        await ctx.send('You now have the Halaqa role.')
+    await ctx.send('You now have the Halaqa role.')
 
 
 @client.command()
