@@ -21,7 +21,7 @@ async def on_ready():
 async def on_raw_reaction_add(ctx):
     if ctx.guild_id == 455068921251364875:
         if ctx.message_id == 719210861364903976:
-            channel = await client.get_channel(719210861364903976)
+            channel = await client.get_channel(ctx.channel_id)
             await channel.send(f'reaction worked, you added :{ctx.emoji}:')
 
 
