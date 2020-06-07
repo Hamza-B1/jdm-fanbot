@@ -115,13 +115,11 @@ async def rolelist(ctx, *, role):
 async def mute(ctx, member: discord.Member, *, reason=None):
     for i in member.roles:
         if i.name == 'Muted':
-
-
+            ctx.send(f'{member} is already muted.')
+        else:
             muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
             await member.add_roles(muted_role)
             await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
-        else:
-            await ctx.send(f'{member} is already muted.')
 
 
 @client.command()
@@ -129,11 +127,10 @@ async def halaqa(ctx):
     for role in ctx.author.roles:
         if role.name == 'Halaqa':
             await ctx.send('You already have this role!')
-            return
-    for role1 in ctx.guild.roles:
-        if role1.name == 'Halaqa':
-            await ctx.author.add_roles(role1)
-            await ctx.send('You now have the Halaqa role.')
+            break
+    halaqa_role = discord.utils.get(ctx.guild.roles, name='Halaqa')
+        await ctx.author.add_roles(halaqa_role)
+        await ctx.send('You now have the Halaqa role.')
 
 
 @client.command()
