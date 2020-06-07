@@ -19,11 +19,11 @@ async def on_ready():
 
 @client.event
 async def on_raw_reaction_add(ctx):
-    if ctx.message_id == 719235836402729020:
-        if ctx.event_type:
-            channel = client.get_channel(694983942259867770)
-            await channel.send(f'reaction worked, you added {ctx.emoji}')
-
+    role_reacts = {':pensive:': 484078560605241367, ':sunglasses:': 455340379403714570}
+    if ctx.message_id == 719243519495110756:
+        if role_reacts.get(ctx.emoji):
+            ctx.member.add_roles(discord.utils.get(role_reacts[ctx.emoji]))
+    await ctx.member.send(f'You have been given the {discord.utils.get(role_reacts[ctx.emoji]).name}')
 
 
 @client.event
