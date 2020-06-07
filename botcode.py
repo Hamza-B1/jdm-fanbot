@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import discord.utils
-from discord.utils import get
+import random
 
 main_client = discord.Client()
 
@@ -11,21 +11,13 @@ client.remove_command('help')
 
 jdm_id = 292626856509964288
 
+tapped_users = []
 
 
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
-
-@client.event
-async def on_raw_reaction_add(ctx):
-    if ctx.message_id == 719243519495110756:
-        if ord(ctx.emoji.name) == 127469:
-            await ctx.member.send(ctx.emoji)
-        else:
-            await ctx.member.send('failed')
-
 
 @client.event
 async def on_member_join(member):
@@ -122,7 +114,7 @@ async def rolelist(ctx, *, role):
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason=None):
-    for i in member.roles:
+    for i in member.roles.name:
         if i.name == 'Muted':
             await ctx.send(f'{member} is already muted.')
             break
@@ -148,11 +140,26 @@ async def students(ctx):
     for role in ctx.author.roles:
         if role.name == 'Students':
             await ctx.send('You already have this role!')
-            return
+            break
     for role1 in ctx.guild.roles:
         if role1.name == 'Students':
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Student role.')
+
+@client.command()
+async def tapped(ctx, member: discord.Member):
+    global tapped_users
+    if member.id not in tapped_users:
+        tapped_users.append(member.id)
+        await ctx.send('success')
+    else:
+        await ctx.send('user already submitted')
+
+@client.event
+async def on_message(message):
+    global tapped_users
+    if message.author.id in tapped_users:
+        await message.channel.send(f'Man said {message.content}')
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
