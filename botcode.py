@@ -21,8 +21,8 @@ async def on_ready():
 async def on_raw_reaction_add(ctx):
     role_reacts = {':pensive:': 484078560605241367, ':sunglasses:': 455340379403714570}
     if ctx.message_id == 719243519495110756:
-        if not role_reacts.get(ctx.emoji):
-            ctx.member.add_roles(discord.utils.get(role_reacts[ctx.emoji]))
+        if role_reacts.get(ctx.emoji.name):
+            ctx.member.add_roles(discord.utils.get(role_reacts[ctx.emoji.name]))
     await ctx.member.send(f'You have been given the role')
 
 
