@@ -17,12 +17,12 @@ async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
-# @client.event
-# async def on_raw_reaction_add(ctx):
-#     role_reacts = {:484078560605241367}
-#     if ctx.message_id == 719243519495110756:
-#         ctx.member.add_roles(discord.utils.get(role_reacts[ctx.emoji.id]))
-#     await ctx.member.send(f'You have been given the role')
+@client.event
+async def on_raw_reaction_add(ctx):
+    role_reacts = {'pensive': 484078560605241367}
+    if ctx.message_id == 719243519495110756:
+        ctx.member.add_roles(discord.utils.get(role_reacts[str(ctx.emoji.name)]))
+    await ctx.member.send(f'You have been given the role')
 
 @client.event
 async def on_raw_reaction_add(ctx):
