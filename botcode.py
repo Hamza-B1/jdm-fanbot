@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import discord.utils
+from discord.utils import get
 
 main_client = discord.Client()
 
@@ -66,7 +67,8 @@ async def diophantine(ctx, *, input):
 @commands.has_permissions(manage_messages=True)
 async def clear(ctx, amount=10):
     await ctx.channel.purge(limit=amount + 1)
-    await ctx.send(f'{amount} messages purged.')
+    embed = discord.Embed(title='', description=f'{amount} messages purged.')
+    await ctx.send(embed=embed)
 
 
 @client.command()
@@ -91,20 +93,9 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 
 @client.command()
-async def get(ctx, *, role):
-    for i in range(len(ctx.guild.roles)):
-        if role == ctx.guild.roles[i].name:
-            await ctx.send('successful')
-
-
-
-
-
-
-@client.command()
 async def rolelist(ctx, *, role):
     peeps = []
-    if role.lower() in map(lambda x:x.name.lower(), ctx.guild.roles):
+    if role.lower() in map(lambda x: x.name.lower(), ctx.guild.roles):
         for member in ctx.guild.members:
             for its_roles in member.roles:
                 if its_roles.name.lower() == role.lower():
@@ -119,28 +110,12 @@ async def rolelist(ctx, *, role):
         await ctx.send(embed=embed2)
 
 
-
 @client.command()
 @commands.has_permissions(manage_messages=True)
-async def silence(ctx, member: discord.Member, *, reason=None):
-    for role in ctx.guild.roles:
-        if role.name == 'Muted':
-            await member.add_roles(role)
-            await ctx.send(f'{member} was muted. Reason: {reason}')
-    for role1 in ctx.guild.roles:
-        if role1.name == 'Zumalaa':
-            await member.remove_roles(role1)
-
-@client.command()
-@commands.has_permissions(manage_messages=True)
-async def unsilence(ctx, member: discord.Member):
-    for role in ctx.guild.roles:
-        if role.name == 'Muted':
-            await member.remove_roles(role)
-    for role1 in ctx.guild.roles:
-        if role1.name == 'Zumalaa':
-            await member.add_roles(role1)
-    await ctx.send(f'{member} was unmuted.')
+async def muted(ctx, member: discord.Member, *, reason=None):
+    muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
+    await member.add_roles(muted_role)
+    await ctx.send(f'{member} was muted. Reason: {reason} \n Shut the hell your mouth :sunglasses::metal:')
 
 
 @client.command()
