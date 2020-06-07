@@ -22,17 +22,10 @@ async def on_ready():
 async def on_raw_reaction_add(ctx):
     guild = client.get_guild(ctx.guild_id)
     if ctx.message_id == 719243519495110756:
-        if str(ctx.emoji.name) == 'pensive'
+        if str(ctx.emoji.name) == 'pensive':
             role = discord.utils.get(guild.roles, name='Thot')
             await ctx.member.add_roles(role)
     await ctx.member.send(f'You have been given the role')
-
-@client.event
-async def on_raw_reaction_add(ctx):
-    if ctx.message_id == 719243519495110756:
-        channel = client.get_channel(ctx.channel_id)
-        await channel.send(str(ctx.emoji.name))
-
 
 
 @client.event
