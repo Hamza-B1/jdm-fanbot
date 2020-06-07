@@ -11,9 +11,6 @@ client.remove_command('help')
 
 jdm_id = 292626856509964288
 
-tapped_users = []
-
-
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -146,20 +143,8 @@ async def students(ctx):
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Student role.')
 
-@client.command()
-async def tapped(ctx, member: discord.Member):
-    global tapped_users
-    if member.id not in tapped_users:
-        tapped_users.append(member.id)
-        await ctx.send('success')
-    else:
-        await ctx.send('user already submitted')
 
-@client.event
-async def on_message(message):
-    global tapped_users
-    if message.author.id in tapped_users:
-        await message.channel.send(f'Man said {message.content}')
+
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
