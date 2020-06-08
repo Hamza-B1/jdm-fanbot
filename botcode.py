@@ -156,19 +156,22 @@ locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
 
 current = 0
 
+new_room = True
 
 @client.command()
 async def adventure(ctx):
     while True:
         global locations
         global current
+        global new_room
         name, desc, url, directions = locations[current]
         embed_A = discord.Embed(Title=f'{name}',
                                 description=f'You are currently in {name}.\n '
                                             f'Available directions are: {",".join(directions.keys())}.'
                                             f'\nType "quit" to exit the adventure.')
         embed_A.set_image(url=url)
-        await ctx.send(embed=embed_A)
+        if new_room:
+            await ctx.send(embed=embed_A)
 
         def check(m):
             global locations
@@ -185,9 +188,10 @@ async def adventure(ctx):
             elif msg.content not in directions.keys():
                 embed_B = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.')
                 await ctx.send(embed=embed_B)
-                continue
+                new_room = False
             else:
                 current = directions[msg.content]
+                new_room = True
                 continue
     await ctx.send('Adventure ended.')
 
