@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import discord.utils
+import asyncio
 import random
 
 main_client = discord.Client()
@@ -11,10 +12,17 @@ client.remove_command('help')
 
 jdm_id = 292626856509964288
 
+adventure_locations = {0: ('Welcome to The Abdul Room.',
+                           'url1'),
+                       1: ('Welcome to the birb room. Birb.',
+                           'url2')}
+
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
     await client.change_presence(activity=discord.Game(name='Borgar'))
+
 
 @client.event
 async def on_member_join(member):
@@ -144,7 +152,19 @@ async def students(ctx):
             await ctx.send('You now have the Student role.')
 
 
+test_loc = ['n', 's', 'w', 'e']
 
+
+@client.command()
+async def waiting(ctx):
+    await ctx.send('waiting for input...')
+
+    def check(m):
+        global test_loc
+        return m.content.lower() in test_loc and m.channel == ctx.channel
+
+    msg = await client.wait_for('message', check=check)
+    await ctx.send(f'You chose {msg.content}')
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
