@@ -166,7 +166,8 @@ async def adventure(ctx):
         def check(m):
             global locations
             global current
-            return (m.content.lower() in directions.keys() and m.channel == ctx.channel) or ('quit' in m.content.lower())
+            return ((m.content.lower() in directions.keys()) or ('quit' in m.content.lower())) \
+                   and m.channel == ctx.channel and ctx.author == m.author
 
         msg = await client.wait_for('message', check=check)
         if 'quit' in msg.content:
@@ -177,8 +178,6 @@ async def adventure(ctx):
             current = directions[msg.content]
             continue
     await ctx.send('Adventure ended.')
-
-
 
 
 #         global
