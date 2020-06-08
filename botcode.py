@@ -147,7 +147,7 @@ async def students(ctx):
             await ctx.send('You now have the Student role.')
 
 abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/719597802023551031/C2i3jNfXEAAelz7.png'
-
+otherurl = 'https://cdn.discordapp.com/attachments/665955692242534430/719184954776485982/20190720_070053_1.gif'
 
 locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
              1: ('Other Room', 'desc 2', {'east': 0})
@@ -180,7 +180,8 @@ async def adventure(ctx):
             if 'quit' in msg.content:
                 break
             elif msg.content not in directions.keys():
-                await ctx.send(f'{msg.content} is not a valid direction you cretin.')
+                embedB = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.')
+                await ctx.send(embed=embedB)
             else:
                 current = directions[msg.content]
                 continue
