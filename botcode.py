@@ -13,6 +13,7 @@ client.remove_command('help')
 jdm_id = 292626856509964288
 
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -114,15 +115,15 @@ async def rolelist(ctx, *, role):
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason=None):
-    for i in member.roles:
-        if i.name == 'Muted':
-            await ctx.send(f'{member} is already muted.')
-            break
+    muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
+    if muted_role in ctx.member.roles:
+        await ctx.send(f'{member} is already muted.')
     else:
         muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
         await member.add_roles(muted_role)
         await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
-        embed_L = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}')
+        embed_L = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}',
+                                colour=discord.Colour.dark_red())
         embed_L.set_thumbnail(url=member.avatar_url)
         logs = discord.utils.get(ctx.guild.channels, name='logs')
         await logs.send(embed=embed_L)
@@ -131,10 +132,12 @@ async def mute(ctx, member: discord.Member, *, reason=None):
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def unmute(ctx, member: discord.Member):
+    logs = discord.utils.get(ctx.guild.channels, name='logs')
     muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
     if muted_role in member.roles:
         await member.remove_roles(muted_role)
         await ctx.send(f'{member} unmuted.')
+        await logs.send(f'{member} unmuted.')
     else:
         await ctx.send('User isn\'t muted')
 
@@ -167,12 +170,13 @@ async def students(ctx):
 
 
 abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/719597802023551031/C2i3jNfXEAAelz7.png'
-otherurl = 'https://cdn.discordapp.com/attachments/665955692242534430/719184954776485982/20190720_070053_1.gif'
+birburl = 'https://cdn.discordapp.com/attachments/665955692242534430/719184954776485982/20190720_070053_1.gif'
+birb2url = 'https://cdn.discordapp.com/attachments/665955692242534430/719185105708515427/Snapchat-2142609126_1.gif'
 
 locations = {0: ('Abdul Room', 'There\'s a car parked inside', abdulurl, {'west': 1}),
-             1: ('Birb Room', 'Birb', otherurl, {'east': 0})
-             }
-
+             1: ('Birb Room', 'Birb', birburl, {'east': 0, 'west': 2}),
+             2: ('Birb Room 2', 'Another Birb', birb2url, {'east': 1})
+            }
 
 @client.command()
 async def adventure(ctx):
