@@ -147,8 +147,8 @@ async def students(ctx):
             await ctx.send('You now have the Student role.')
 
 
-locations = {0: ('abdul room', 'desc', {'w': 1}),
-             1: ('other room', 'desc 2', {'e': 0})
+locations = {0: ('abdul room', 'desc', {'west': 1}),
+             1: ('other room', 'desc 2', {'east': 0})
              }
 
 current = 0
@@ -159,7 +159,7 @@ async def adventure(ctx):
     global current
     name, desc, directions = locations[current]
     await ctx.send(f'You are currently in {name}, '
-                    f'Available directions are: {directions}')
+                    f'Available directions are: {directions.keys()}')
 
 
 
