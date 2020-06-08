@@ -156,16 +156,29 @@ current = 0
 
 @client.command()
 async def adventure(ctx):
-    #    while True:
-    global locations
-    global current
-    name, desc, directions = locations[current]
-    await ctx.send(f'You are currently in {name}, '
-                   f'Available directions are: {",".join(directions.keys())}')
+    while True:
+        global locations
+        global current
+        name, desc, directions = locations[current]
+        await ctx.send(f'You are currently in {name}, '
+                       f'Available directions are: {",".join(directions.keys())}.')
 
-    # def check(m):
-    # global locations
-    # global current
+        def check(m):
+            global locations
+            global current
+            return (m.content.lower() in directions.keys() and m.channel == ctx.channel) or ('quit' in m.content.lower())
+
+        msg = await client.wait_for('message', check=check)
+        if 'quit' in msg.content:
+            break
+        elif msg.content not in directions.keys():
+            await ctx.send("Please enter a direction!")
+        else:
+            current = directions[msg.content]
+            continue
+    await ctx.send('Adventure ended.')
+
+
 
 
 #         global
