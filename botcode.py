@@ -86,11 +86,11 @@ async def kick(ctx, member: discord.Member, *, reason=None):
                                                                      f'handle the Abdul Style :sunglasses::metal:'
                               , colour=discord.Colour.dark_red())
         await ctx.send(embed=embed)
-        for channel in ctx.guild.text_channels:
-            if channel.name == 'logs':
-                embed2 = discord.Embed(title=f'{member} Kicked by {ctx.author}', description=f'Reason : {reason}')
-                embed2.set_thumbnail(url=member.avatar_url)
-                await channel.send(embed=embed2)
+
+        embed2 = discord.Embed(title=f'{member} Kicked by {ctx.author}', description=f'Reason : {reason}')
+        embed2.set_thumbnail(url=member.avatar_url)
+        logs = discord.utils.get(ctx.guild.channels, name='logs')
+        await logs.send(embed=embed2)
 
 
 @client.command()
@@ -122,6 +122,11 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
         await member.add_roles(muted_role)
         await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
+        embed_L = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}')
+        embed_L.set_thumbnail(url=member.avatar_url)
+        logs = discord.utils.get(ctx.guild.channels, name='logs')
+        await logs.send(embed_L)
+
 
 
 @client.command()
