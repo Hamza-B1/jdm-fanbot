@@ -135,7 +135,7 @@ async def unmute(ctx, member: discord.Member):
         if i.name == 'Muted':
             muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
             await member.remove_roles(muted_role)
-            await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
+            await ctx.send(f'{member} unmuted.')
             embed_L = discord.Embed(title=f'{member} Unmuted by {ctx.author}', description=f'')
             embed_L.set_thumbnail(url=member.avatar_url)
             logs = discord.utils.get(ctx.guild.channels, name='logs')
