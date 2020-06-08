@@ -173,7 +173,7 @@ async def adventure(ctx):
         def check(m):
             global locations
             global current
-            return m.channel == ctx.channel and ctx.author == m.author
+            return m.channel == ctx.channel and m.author.id == ctx.author.id
 
         try:
             msg = await client.wait_for('message', check=check, timeout=30.0)
