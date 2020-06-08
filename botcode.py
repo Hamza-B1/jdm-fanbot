@@ -28,6 +28,11 @@ async def on_member_join(member):
                            f'you need to talk here for a little while '
                            f'to level up. Enjoy your stay :sunglasses::metal:')
 
+@client.event
+async def on_message(message):
+    if message.author.id == 517389427962675231:
+        await message.channel.send(f'Man said {message.content} {message.author.mention}')
+    await client.process_commands(message)
 
 @client.event
 async def on_message_delete(ctx):
@@ -140,7 +145,6 @@ async def unmute(ctx, member: discord.Member):
         await logs.send(f'{member} unmuted.')
     else:
         await ctx.send('User isn\'t muted')
-
 
 
 
