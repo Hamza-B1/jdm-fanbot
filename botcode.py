@@ -167,8 +167,7 @@ async def adventure(ctx):
         def check(m):
             global locations
             global current
-            return ((m.content.lower() in directions.keys()) or ('quit' in m.content.lower())) \
-                   and m.channel == ctx.channel and ctx.author == m.author
+            return m.channel == ctx.channel and ctx.author == m.author
 
         try:
             msg = await client.wait_for('message', check=check, timeout=30.0)
@@ -177,6 +176,8 @@ async def adventure(ctx):
         else:
             if 'quit' in msg.content:
                 break
+            elif msg.content not in directions.keys():
+                await ctx.send('Please enter a valid direction.')
             else:
                 current = directions[msg.content]
                 continue
