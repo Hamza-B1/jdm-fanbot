@@ -154,16 +154,16 @@ locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
              1: ('Birb Room', 'desc 2', otherurl, {'east': 0})
              }
 
-current = 0
+
 
 new_room = True
 
 @client.command()
 async def adventure(ctx):
+    current = 0
     new_room = True
     while True:
         global locations
-        global current
         if new_room:
             name, desc, url, directions = locations[current]
             embed_A = discord.Embed(Title=f'{name}',
