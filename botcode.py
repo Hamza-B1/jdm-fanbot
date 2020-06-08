@@ -166,8 +166,8 @@ async def adventure(ctx):
         global locations
         if new_room:
             name, desc, url, directions = locations[current]
-            embed_A = discord.Embed(Title=f'{name}',
-                                    description=f'You are currently in {name}.\n {desc}\n'
+            embed_A = discord.Embed(Title=f'You are currently in {name}.',
+                                    description=f'{desc}\n'
                                                 f'Available directions are: {",".join(directions.keys())}.'
                                                 f'\nType "quit" to exit the adventure.',
                                     colour=discord.Colour.dark_red())
