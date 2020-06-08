@@ -116,7 +116,7 @@ async def rolelist(ctx, *, role):
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason=None):
     muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
-    if muted_role in ctx.member.roles:
+    if muted_role in member.roles:
         await ctx.send(f'{member} is already muted.')
     else:
         muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
@@ -140,8 +140,6 @@ async def unmute(ctx, member: discord.Member):
         await logs.send(f'{member} unmuted.')
     else:
         await ctx.send('User isn\'t muted')
-
-
 
 
 
@@ -188,7 +186,7 @@ async def adventure(ctx):
             name, desc, url, directions = locations[current]
             embed_A = discord.Embed(Title=f'You are currently in {name}.',
                                     description=f'{desc}\n'
-                                                f'Available directions are: {",".join(directions.keys())}.'
+                                                f'Available directions are: {", ".join(directions.keys())}.'
                                                 f'\nType "quit" to exit the adventure.',
                                     colour=discord.Colour.dark_red())
             embed_A.set_image(url=url)
