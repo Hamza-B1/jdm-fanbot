@@ -160,7 +160,7 @@ async def adventure(ctx):
     while True:
         global locations
         global current
-        name, desc, directions, url = locations[current]
+        name, desc, url, directions = locations[current]
         embedA = discord.Embed(Title=f'{name}',
                                description=f'You are currently in {name}.\n '
                                            f'Available directions are: {",".join(directions.keys())}.',
