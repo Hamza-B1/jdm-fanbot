@@ -172,8 +172,6 @@ async def adventure(ctx):
         msg = await client.wait_for('message', check=check)
         if 'quit' in msg.content:
             break
-        elif msg.content not in directions.keys():
-            await ctx.send("Please enter a direction!")
         else:
             current = directions[msg.content]
             continue
