@@ -146,23 +146,26 @@ async def students(ctx):
             await ctx.author.add_roles(role1)
             await ctx.send('You now have the Student role.')
 
+abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/719597802023551031/C2i3jNfXEAAelz7.png'
 
-locations = {0: ('abdul room', 'desc', {'west': 1}),
-             1: ('other room', 'desc 2', {'east': 0})
+
+locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
+             1: ('Other Room', 'desc 2', {'east': 0})
              }
 
 current = 0
-
 
 @client.command()
 async def adventure(ctx):
     while True:
         global locations
         global current
-        name, desc, directions = locations[current]
-        await ctx.send(f'You are currently in {name}, '
-                       f'Available directions are: {",".join(directions.keys())}. '
-                       f'Please enter a valid direction to move.')
+        name, desc, directions, url = locations[current]
+        embedA = discord.Embed(Title=f'{name}',
+                               description=f'You are currently in {name}.\n '
+                                           f'Available directions are: {",".join(directions.keys())}.',
+                                           url=f'{url}',)
+        await ctx.send(embed=embedA)
 
         def check(m):
             global locations
