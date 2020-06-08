@@ -172,7 +172,7 @@ async def adventure(ctx):
 
         try:
             msg = await client.wait_for('message', check=check, timeout=30.0)
-        except:
+        except asyncio.TimeoutError:
             break
         else:
             if 'quit' in msg.content:
@@ -181,18 +181,6 @@ async def adventure(ctx):
                 current = directions[msg.content]
                 continue
     await ctx.send('Adventure ended.')
-
-
-
-
-
-
-
-#         global
-#         return m.content.lower() in test_dir and m.channel == ctx.channel
-#
-#     msg = await client.wait_for('message', check=check)
-#     await ctx.send(f'You chose {msg.content}')
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
