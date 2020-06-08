@@ -12,11 +12,6 @@ client.remove_command('help')
 
 jdm_id = 292626856509964288
 
-adventure_locations = {0: ('Welcome to The Abdul Room.',
-                           'url1'),
-                       1: ('Welcome to the birb room. Birb.',
-                           'url2')}
-
 
 @client.event
 async def on_ready():
@@ -152,19 +147,33 @@ async def students(ctx):
             await ctx.send('You now have the Student role.')
 
 
-test_loc = ['n', 's', 'w', 'e']
+locations = {0: ('abdul room', 'desc', {'w': 1}),
+             1: ('other room', 'desc 2', {'e': 0})
+             }
 
-
+current = 0
 @client.command()
-async def waiting(ctx):
-    await ctx.send('waiting for input...')
+async def adventure(ctx):
+#    while True:
+    global locations
+    global current
+    name, desc, directions = locations[current]
+    await ctx.send(f'You are currently in {locations[current]}, '
+                    f'Available directions are: {directions.keys()}')
 
-    def check(m):
-        global test_loc
-        return m.content.lower() in test_loc and m.channel == ctx.channel
 
-    msg = await client.wait_for('message', check=check)
-    await ctx.send(f'You chose {msg.content}')
+
+
+        #def check(m):
+           # global locations
+            #global current
+
+
+#         global
+#         return m.content.lower() in test_dir and m.channel == ctx.channel
+#
+#     msg = await client.wait_for('message', check=check)
+#     await ctx.send(f'You chose {msg.content}')
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
