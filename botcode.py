@@ -114,7 +114,7 @@ async def rolelist(ctx, *, role):
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason=None):
-    for i in member.roles.name:
+    for i in member.roles:
         if i.name == 'Muted':
             await ctx.send(f'{member} is already muted.')
             break
@@ -150,8 +150,9 @@ async def students(ctx):
 abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/719597802023551031/C2i3jNfXEAAelz7.png'
 otherurl = 'https://cdn.discordapp.com/attachments/665955692242534430/719184954776485982/20190720_070053_1.gif'
 
-locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
-             1: ('Birb Room', 'desc 2', otherurl, {'east': 0})
+locations = {0: ('Abdul Room', 'There\'s a car parked inside', abdulurl, {'west': 1}),
+             1: ('Birb Room', 'Birb', otherurl, {'east': 0})
+             2:
              }
 
 
@@ -167,9 +168,10 @@ async def adventure(ctx):
         if new_room:
             name, desc, url, directions = locations[current]
             embed_A = discord.Embed(Title=f'{name}',
-                                    description=f'You are currently in {name}.\n '
+                                    description=f'You are currently in {name}.\n {desc}\n'
                                                 f'Available directions are: {",".join(directions.keys())}.'
-                                                f'\nType "quit" to exit the adventure.')
+                                                f'\nType "quit" to exit the adventure.',
+                                    colour=discord.Colour.dark_red())
             embed_A.set_image(url=url)
             await ctx.send(embed=embed_A)
             new_room = False
@@ -187,13 +189,15 @@ async def adventure(ctx):
             if 'quit' in msg.content:
                 break
             elif msg.content not in directions.keys():
-                embed_B = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.')
+                embed_B = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.',
+                                        colour=discord.Colour.dark_red())
                 await ctx.send(embed=embed_B)
             else:
                 current = directions[msg.content]
                 new_room = True
                 continue
-    await ctx.send('Adventure ended.')
+    embed_C = discord.Embed(Title='', description='Adventure ended.', colour=discord.Colour.dark_red())
+    await ctx.send(embed=embed_C)
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
