@@ -152,21 +152,20 @@ locations = {0: ('abdul room', 'desc', {'west': 1}),
              }
 
 current = 0
+
+
 @client.command()
 async def adventure(ctx):
-#    while True:
+    #    while True:
     global locations
     global current
     name, desc, directions = locations[current]
     await ctx.send(f'You are currently in {name}, '
-                    f'Available directions are: {directions.keys()}')
+                   f'Available directions are: {",".join(directions.keys())}')
 
-
-
-
-        #def check(m):
-           # global locations
-            #global current
+    # def check(m):
+    # global locations
+    # global current
 
 
 #         global
