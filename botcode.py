@@ -173,10 +173,11 @@ async def adventure(ctx):
         try:
             msg = await client.wait_for('message', check=check, timeout=60.0)
         except:
-            await ctx.send('Adventure timed out')
             break
         else:
-            if 'quit' in msg.content:
+            if not msg:
+                await ctx.send('Please enter valid direction.')
+            elif 'quit' in msg.content:
                 break
             else:
                 current = directions[msg.content]
