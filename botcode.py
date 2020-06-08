@@ -128,6 +128,26 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         await logs.send(embed_L)
 
 
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def unmute(ctx, member: discord.Member):
+    for i in member.roles:
+        if i.name == 'Muted':
+            muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
+            await member.remove_roles(muted_role)
+            await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
+            embed_L = discord.Embed(title=f'{member} Unmuted by {ctx.author}', description=f'')
+            embed_L.set_thumbnail(url=member.avatar_url)
+            logs = discord.utils.get(ctx.guild.channels, name='logs')
+            await logs.send(embed_L)
+            break
+        else:
+            await ctx.send('User isn\'t muted')
+
+
+
+
+
 
 @client.command()
 async def halaqa(ctx):
