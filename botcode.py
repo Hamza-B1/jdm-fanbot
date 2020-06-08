@@ -184,7 +184,7 @@ async def adventure(ctx):
         global locations
         if new_room:
             name, desc, url, directions = locations[current]
-            embed_A = discord.Embed(Title=f'You are currently in {name}.',
+            embed_A = discord.Embed(title=f'You are currently in {name}.',
                                     description=f'{desc}\n'
                                                 f'Available directions are: {", ".join(directions.keys())}.'
                                                 f'\nType "quit" to exit the adventure.',
@@ -205,14 +205,14 @@ async def adventure(ctx):
             if 'quit' in msg.content:
                 break
             elif msg.content not in directions.keys():
-                embed_B = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.',
+                embed_B = discord.Embed(title='', description=f'{msg.content} is not a valid direction you cretin.',
                                         colour=discord.Colour.dark_red())
                 await ctx.send(embed=embed_B)
             else:
                 current = directions[msg.content]
                 new_room = True
                 continue
-    embed_C = discord.Embed(Title='', description='Adventure ended.', colour=discord.Colour.dark_red())
+    embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
 
 
