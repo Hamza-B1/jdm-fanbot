@@ -155,9 +155,6 @@ locations = {0: ('Abdul Room', 'There\'s a car parked inside', abdulurl, {'west'
              }
 
 
-
-new_room = True
-
 @client.command()
 async def adventure(ctx):
     current = 0
@@ -177,7 +174,6 @@ async def adventure(ctx):
 
         def check(m):
             global locations
-            global current
             return m.channel == ctx.channel and m.author.id == ctx.author.id
 
         try:
