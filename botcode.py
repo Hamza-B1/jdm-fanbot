@@ -185,6 +185,7 @@ async def adventure(ctx):
             elif msg.content not in directions.keys():
                 embed_B = discord.Embed(Title='', description=f'{msg.content} is not a valid direction you cretin.')
                 await ctx.send(embed=embed_B)
+                continue
             else:
                 current = directions[msg.content]
                 continue
