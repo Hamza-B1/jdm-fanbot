@@ -152,7 +152,6 @@ otherurl = 'https://cdn.discordapp.com/attachments/665955692242534430/7191849547
 
 locations = {0: ('Abdul Room', 'There\'s a car parked inside', abdulurl, {'west': 1}),
              1: ('Birb Room', 'Birb', otherurl, {'east': 0})
-             2:
              }
 
 
