@@ -171,13 +171,11 @@ async def adventure(ctx):
                    and m.channel == ctx.channel and ctx.author == m.author
 
         try:
-            msg = await client.wait_for('message', check=check, timeout=60.0)
+            msg = await client.wait_for('message', check=check, timeout=30.0)
         except:
             break
         else:
-            if not msg:
-                await ctx.send('Please enter valid direction.')
-            elif 'quit' in msg.content:
+            if 'quit' in msg.content:
                 break
             else:
                 current = directions[msg.content]
