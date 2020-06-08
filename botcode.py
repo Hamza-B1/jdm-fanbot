@@ -158,8 +158,8 @@ async def adventure(ctx):
     global locations
     global current
     name, desc, directions = locations[current]
-    await ctx.send(f'You are currently in {locations[current]}, '
-                    f'Available directions are: {directions.keys()}')
+    await ctx.send(f'You are currently in {name}, '
+                    f'Available directions are: {directions}')
 
 
 
