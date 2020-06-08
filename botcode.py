@@ -151,7 +151,7 @@ abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/7195978020
 otherurl = 'https://cdn.discordapp.com/attachments/665955692242534430/719184954776485982/20190720_070053_1.gif'
 
 locations = {0: ('Abdul Room', 'desc', abdulurl, {'west': 1}),
-             1: ('Other Room', 'desc 2', otherurl, {'east': 0})
+             1: ('Birb Room', 'desc 2', otherurl, {'east': 0})
              }
 
 current = 0
@@ -165,7 +165,8 @@ async def adventure(ctx):
         name, desc, url, directions = locations[current]
         embed_A = discord.Embed(Title=f'{name}',
                                 description=f'You are currently in {name}.\n '
-                                            f'Available directions are: {",".join(directions.keys())}.')
+                                            f'Available directions are: {",".join(directions.keys())}.'
+                                            f'\nType "quit" to exit the adventure.')
         embed_A.set_image(url=url)
         await ctx.send(embed=embed_A)
 
