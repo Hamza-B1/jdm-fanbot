@@ -177,7 +177,7 @@ async def adventure(ctx):
             if 'quit' in msg.content:
                 break
             elif msg.content not in directions.keys():
-                await ctx.send('Please enter a valid direction.')
+                await ctx.send(f'{msg.content} is not a valid direction you cretin.')
             else:
                 current = directions[msg.content]
                 continue
