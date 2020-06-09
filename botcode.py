@@ -223,9 +223,11 @@ async def adventure(ctx):
 
 @client.command()
 async def test(ctx):
-    with open('sample.txt', 'r') as file:
-        for line in file:
-            embed = discord.Embed(title='', description=line)
-            await ctx.channel.send(embed=embed)
+    with open("E:\sample.txt", 'r') as file:
+        line = file.readline()
+        while line:
+            await ctx.channel.send(line, end='')
+            line = file.readline()
+
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
