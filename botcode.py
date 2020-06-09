@@ -224,10 +224,10 @@ async def adventure(ctx):
 @client.command()
 async def test(ctx):
     with open("sample.txt", 'r') as file:
-        line = file.readline()
-        while line:
-            await ctx.channel.send(line)
-            line = file.readline()
+        lines = file.readlines()
+        while lines:
+            await ctx.channel.send(lines)
+            lines = file.readlines()
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
