@@ -125,8 +125,9 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         await ctx.send(f'{member} is already muted.')
     else:
         muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
+        embed_M = discord.Embed(title=f'{member} was muted.', description=f'Reason: {reason}\nShut the hell your mouth :sunglasses::metal:')
         await member.add_roles(muted_role)
-        await ctx.send(f'{member} was muted. Reason: {reason} \nShut the hell your mouth :sunglasses::metal:')
+        await ctx.send(embed=embed_M)
         embed_L = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}',
                                 colour=discord.Colour.dark_red())
         embed_L.set_thumbnail(url=member.avatar_url)
@@ -219,5 +220,11 @@ async def adventure(ctx):
     embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
 
+
+@client.command()
+async def test(ctx):
+    file = open('sample.txt','r')
+    for line in file:
+        await ctx.channel.send(line)
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
