@@ -223,11 +223,11 @@ async def adventure(ctx):
 
 @client.command()
 async def test(ctx):
-    with open("sample.txt", 'r') as file:
-        lines = file.readlines()
-        while lines:
-            await ctx.channel.send(lines)
-            lines = file.readlines()
+    words = ['nissan gtr', 'abdul']
+    with open('samplenew.txt', 'w') as file_edits:
+        for i in words:
+            print(i, file=file_edits)
+            await ctx.send(f'{i} added')
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
