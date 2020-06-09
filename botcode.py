@@ -226,7 +226,7 @@ async def test(ctx):
     with open("sample.txt", 'r') as file:
         line = file.readline()
         while line:
-            await ctx.channel.send(line, end='')
+            await ctx.channel.send(line)
             line = file.readline()
 
 
