@@ -222,7 +222,7 @@ async def adventure(ctx):
 @client.command()
 async def test(ctx):
     words = ['nissan gtr', 'abdul']
-    with open('test', 'w') as file_edits:
+    with open('test', 'bw') as file_edits:
         for i in words:
             pickle.dump(i, file_edits)
             x = pickle.load(file_edits)
