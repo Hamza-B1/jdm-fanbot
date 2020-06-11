@@ -232,7 +232,7 @@ async def test(ctx):
     await ctx.send('success')
 
 @client.command()
-async def test(ctx):
+async def test1(ctx):
     with open('test', 'br') as file:
         x = pickle.load(file)
     y = pickle.load(file)
