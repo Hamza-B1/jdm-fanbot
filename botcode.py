@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import discord.utils
 import asyncio
-import random
+import pickle
 
 main_client = discord.Client()
 
@@ -11,7 +11,6 @@ client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 
 jdm_id = 292626856509964288
-
 
 
 @client.event
@@ -51,7 +50,6 @@ async def on_message_delete(ctx):
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
-
 
 @client.command()
 async def diophantine(ctx, *, input):
@@ -224,10 +222,12 @@ async def adventure(ctx):
 @client.command()
 async def test(ctx):
     words = ['nissan gtr', 'abdul']
-    with open('samplenew.txt', 'w') as file_edits:
+    with open('test', 'w') as file_edits:
         for i in words:
-            print(i, file=file_edits)
-            await ctx.send(f'{i} added')
+            pickle.dump(i, file_edits)
+            await ctx.send(pickle.load(file_edits))
+            await ctx.send(pickle.load(file_edits))
+
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
