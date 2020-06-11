@@ -225,8 +225,10 @@ async def test(ctx):
     with open('test', 'w') as file_edits:
         for i in words:
             pickle.dump(i, file_edits)
-            await ctx.send(pickle.load(file_edits))
-            await ctx.send(pickle.load(file_edits))
+            x = pickle.load(file_edits)
+            y = pickle.load(file_edits)
+            await ctx.send(x)
+            await ctx.send(y)
 
 
 
