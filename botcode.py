@@ -225,15 +225,19 @@ async def adventure(ctx):
 
 @client.command()
 async def test(ctx):
-    words = ['nissan gtr', 'abdul']
+    words = 'this might work\nor it might not'
     with open('test', 'bw') as file:
         for i in words:
             pickle.dump(i, file)
+    await ctx.send('success')
+
+@client.command()
+async def test(ctx):
     with open('test', 'br') as file:
         x = pickle.load(file)
-        y = pickle.load(file)
-        await ctx.send(x)
-        await ctx.send(y)
+    y = pickle.load(file)
+    await ctx.send(x)
+    await ctx.send(y)
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
