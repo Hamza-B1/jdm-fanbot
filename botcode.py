@@ -27,11 +27,13 @@ async def on_member_join(member):
                            f'you need to talk here for a little while '
                            f'to level up. Enjoy your stay :sunglasses::metal:')
 
+
 @client.event
 async def on_message(message):
     if message.author.id == 517389427962675231:
         await message.channel.send(f'Man said {message.content} {message.author.mention}')
     await client.process_commands(message)
+
 
 @client.event
 async def on_message_delete(ctx):
@@ -50,6 +52,7 @@ async def on_message_delete(ctx):
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
+
 
 @client.command()
 async def diophantine(ctx, *, input):
@@ -123,7 +126,8 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         await ctx.send(f'{member} is already muted.')
     else:
         muted_role = discord.utils.get(ctx.guild.roles, name='Muted')
-        embed_M = discord.Embed(title=f'{member} was muted.', description=f'Reason: {reason}\nShut the hell your mouth :sunglasses::metal:')
+        embed_M = discord.Embed(title=f'{member} was muted.',
+                                description=f'Reason: {reason}\nShut the hell your mouth :sunglasses::metal:')
         await member.add_roles(muted_role)
         await ctx.send(embed=embed_M)
         embed_L = discord.Embed(title=f'{member} Muted by {ctx.author}', description=f'Reason : {reason}',
@@ -144,7 +148,6 @@ async def unmute(ctx, member: discord.Member):
         await logs.send(f'{member} unmuted.')
     else:
         await ctx.send('User isn\'t muted')
-
 
 
 @client.command()
@@ -177,7 +180,8 @@ birb2url = 'https://cdn.discordapp.com/attachments/665955692242534430/7191851057
 locations = {0: ('Abdul Room', 'There\'s a car parked inside', abdulurl, {'west': 1}),
              1: ('Birb Room', 'Birb', birburl, {'east': 0, 'west': 2}),
              2: ('Birb Room 2', 'Another Birb', birb2url, {'east': 1})
-            }
+             }
+
 
 @client.command()
 async def adventure(ctx):
@@ -225,13 +229,11 @@ async def test(ctx):
     with open('test', 'bw') as file:
         for i in words:
             pickle.dump(i, file)
-    with open('test' 'br') as file:
-            x = pickle.load(file)
-            y = pickle.load(file)
-            await ctx.send(x)
-            await ctx.send(y)
-
-
+    with open('test', 'br') as file:
+        x = pickle.load(file)
+        y = pickle.load(file)
+        await ctx.send(x)
+        await ctx.send(y)
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
