@@ -2,16 +2,11 @@ import discord
 from discord.ext import commands
 import discord.utils
 import asyncio
-import pickle
 
 main_client = discord.Client()
-
 client = commands.Bot(command_prefix=';;')
-
 client.remove_command('help')
-
 jdm_id = 292626856509964288
-
 
 @client.event
 async def on_ready():
@@ -221,23 +216,6 @@ async def adventure(ctx):
                 continue
     embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
-
-
-@client.command()
-async def test(ctx):
-    words = 'this might work\nor it might not'
-    with open('test', 'bw') as file:
-        for i in words:
-            pickle.dump(i, file)
-    await ctx.send('success')
-
-@client.command()
-async def test1(ctx):
-    with open('test', 'br') as file:
-        x = pickle.load(file)
-    y = pickle.load(file)
-    await ctx.send(x)
-    await ctx.send(y)
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
