@@ -8,6 +8,7 @@ client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 jdm_id = 292626856509964288
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
@@ -94,6 +95,13 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         logs = discord.utils.get(ctx.guild.channels, name='logs')
         await logs.send(embed=embed2)
 
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def hackban(ctx, id=0, *, reason=None):
+    member = client.get_user(id)
+    await member.ban()
+    await ctx.channel.send(f'{member.mention} was banned.:sunglasses::metal:')
+
 
 @client.command()
 async def rolelist(ctx, *, role):
@@ -144,28 +152,32 @@ async def unmute(ctx, member: discord.Member):
     else:
         await ctx.send('User isn\'t muted')
 
+@client.command()
+
 
 @client.command()
 async def halaqa(ctx):
-    for role in ctx.author.roles:
-        if role.name == 'Halaqa':
-            await ctx.send('You already have this role!')
-            break
-    halaqa_role = discord.utils.get(ctx.guild.roles, name='Halaqa')
-    await ctx.author.add_roles(halaqa_role)
-    await ctx.send('You now have the Halaqa role.')
+    if ctx.guild.id == 679781666423570480:
+        for role in ctx.author.roles:
+            if role.name == 'Halaqa':
+                await ctx.send('You already have this role!')
+                break
+        halaqa_role = discord.utils.get(ctx.guild.roles, name='Halaqa')
+        await ctx.author.add_roles(halaqa_role)
+        await ctx.send('You now have the Halaqa role.')
 
 
 @client.command()
 async def students(ctx):
-    for role in ctx.author.roles:
-        if role.name == 'Students':
-            await ctx.send('You already have this role!')
-            break
-    for role1 in ctx.guild.roles:
-        if role1.name == 'Students':
-            await ctx.author.add_roles(role1)
-            await ctx.send('You now have the Student role.')
+    if ctx.guild.id == 679781666423570480:
+        for role in ctx.author.roles:
+            if role.name == 'Students':
+                await ctx.send('You already have this role!')
+                break
+        for role1 in ctx.guild.roles:
+            if role1.name == 'Students':
+                await ctx.author.add_roles(role1)
+                await ctx.send('You now have the Student role.')
 
 
 abdulurl = 'https://cdn.discordapp.com/attachments/718254742702391317/719597802023551031/C2i3jNfXEAAelz7.png'
