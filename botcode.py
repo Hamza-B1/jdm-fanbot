@@ -152,8 +152,6 @@ async def unmute(ctx, member: discord.Member):
     else:
         await ctx.send('User isn\'t muted')
 
-@client.command()
-
 
 @client.command()
 async def halaqa(ctx):
