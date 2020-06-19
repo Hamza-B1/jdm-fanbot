@@ -95,13 +95,6 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         logs = discord.utils.get(ctx.guild.channels, name='logs')
         await logs.send(embed=embed2)
 
-@client.command()
-@commands.has_permissions(manage_messages=True)
-async def hackban(ctx, id=0, *, reason=None):
-    member = client.get_user(id)
-    await member.ban()
-    await ctx.channel.send(f'{member.mention} was banned.:sunglasses::metal:')
-
 
 @client.command()
 async def rolelist(ctx, *, role):
@@ -163,6 +156,15 @@ async def halaqa(ctx):
         halaqa_role = discord.utils.get(ctx.guild.roles, name='Halaqa')
         await ctx.author.add_roles(halaqa_role)
         await ctx.send('You now have the Halaqa role.')
+
+
+@client.command()
+async def study(ctx):
+    study_role = discord.utils.get(ctx.guild.roles, name='studying')
+    if study_role in ctx.author.roles:
+        await ctx.send('You already have this role!')
+    else:
+        await ctx.author.add_roles(study_role)
 
 
 @client.command()
