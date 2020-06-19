@@ -162,9 +162,13 @@ async def halaqa(ctx):
 async def study(ctx):
     study_role = discord.utils.get(ctx.guild.roles, name='studying')
     if study_role in ctx.author.roles:
-        await ctx.send('You already have this role!')
+        embed1 = discord.Embed(title='', description='Studying role removed. Did you do enough work :thinking:')
+        await ctx.send(embed=embed1)
     else:
         await ctx.author.add_roles(study_role)
+        embed = discord.Embed(title='',
+                              description='You now have the Studying role. Go get that bread :sunglasses::metal:')
+        await ctx.send(embed=embed)
 
 
 @client.command()
