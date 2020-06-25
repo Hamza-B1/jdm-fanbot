@@ -28,7 +28,7 @@ async def on_member_join(member):
 async def on_message(message):
     muted_role = discord.utils.get(message.guild.roles, name='Muted')
     if any(site in message.content for site in explicit_sites):
-        await message.author.give_roles(muted_role)
+        await message.author.add_roles(muted_role)
         await message.delete()
 
     await client.process_commands(message)
