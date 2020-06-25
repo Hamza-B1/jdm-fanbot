@@ -7,7 +7,7 @@ main_client = discord.Client()
 client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 jdm_id = 292626856509964288
-
+explicit_sites = ["pornhub.com", "xvideos.com", "bdsmlr.com", "xhcdn.com", "test.com"]
 
 @client.event
 async def on_ready():
@@ -26,8 +26,11 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-    if message.author.id == 517389427962675231:
-        await message.channel.send(f'Man said {message.content} {message.author.mention}')
+    muted_role = discord.utils.get(message.guild.roles, name='Muted')
+    if any(site in message.content for site in explicit_sites):
+        await message.author.give_role(muted_role)
+        await message.delete()
+
     await client.process_commands(message)
 
 
