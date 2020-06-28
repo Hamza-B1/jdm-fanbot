@@ -240,24 +240,6 @@ async def adventure(ctx):
     embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
 
-
-class Quiz:
-    def __init__(self, name, content):
-        self.name = name
-        self.content = content
-
-    def __str__(self):
-        print(self.name)
-        print(self.content)
-
-
-cars = Quiz("Car Quiz", my_commands.car_quiz_content)
-
-@client.command()
-async def test1(ctx):
-    await ctx.send(f'{cars.name}, {cars.content}')
-    print(str(cars))
-
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def lockdown(ctx):
