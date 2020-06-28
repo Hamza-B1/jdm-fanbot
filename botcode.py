@@ -2,12 +2,15 @@ import discord
 from discord.ext import commands
 import discord.utils
 import asyncio
+import my_commands
+import time
 
 main_client = discord.Client()
 client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 jdm_id = 292626856509964288
 explicit_sites = ["pornhub.com", "xvideos.com", "bdsmlr.com", "xhcdn.com", "test.com"]
+
 
 @client.event
 async def on_ready():
@@ -224,6 +227,7 @@ async def adventure(ctx):
         except asyncio.TimeoutError:
             break
         else:
+            # noinspection PyUnboundLocalVariable
             if 'quit' in msg.content:
                 break
             elif msg.content not in directions.keys():
@@ -236,6 +240,36 @@ async def adventure(ctx):
                 continue
     embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
+
+
+class Quiz:
+    def __init__(self, name, content):
+        self.name = name
+        self.content = content
+
+    def __str__(self):
+        print(self.name)
+        print(self.content)
+
+
+cars = Quiz("Car Quiz", my_commands.car_quiz_content)
+
+@client.command()
+async def test1(ctx):
+    await ctx.send(f'{cars.name}, {cars.content}')
+    print(str(cars))
+
+@client.command()
+@commands.has_permissions(manage_messages=True)
+async def lockdown(ctx):
+    await ctx.send('Locking down server...')
+    muted = discord.utils.get(ctx.guild.roles, name='Muted')
+    for i in ctx.guild.members:
+        if muted in i.roles:
+            continue
+        else:
+            await i.add_roles(muted)
+            time.sleep(1)
 
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
