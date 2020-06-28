@@ -240,17 +240,5 @@ async def adventure(ctx):
     embed_C = discord.Embed(title='', description='Adventure ended.', colour=discord.Colour.dark_red())
     await ctx.send(embed=embed_C)
 
-@client.command()
-@commands.has_permissions(manage_messages=True)
-async def lockdown(ctx):
-    await ctx.send('Locking down server...')
-    muted = discord.utils.get(ctx.guild.roles, name='Muted')
-    for i in ctx.guild.members:
-        if muted in i.roles:
-            continue
-        else:
-            await i.add_roles(muted)
-            time.sleep(1)
-
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
