@@ -14,7 +14,6 @@ client.remove_command('help')
 jdm_id = 292626856509964288
 conn = psycopg2.connect(uri, sslmode='require')
 cur = conn.cursor()
-cur.execute('CREATE TABLE test (member_id bigint, time timestamptz);')
 @client.command()
 async def db(ctx, member: discord.Member):
     if ctx.author.id == jdm_id:
@@ -22,7 +21,9 @@ async def db(ctx, member: discord.Member):
         conn.commit()
         await ctx.send('Database updated')
 
-
+async def dbtest(ctx):
+    cur.execute('SELECT * FROM test;')
+    await ctx.send(cur.fetchone())
 
 @client.event
 async def on_ready():
