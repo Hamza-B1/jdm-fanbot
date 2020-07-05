@@ -5,7 +5,6 @@ import asyncio
 import pytz
 import psycopg2
 import datetime
-import time
 
 uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54-247-78-30.eu' \
       '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd'
@@ -19,13 +18,10 @@ cur.execute('CREATE TABLE test (action_id SERIAL PRIMARY KEY, member_id bigint, 
 @client.command()
 async def db(ctx, member: discord.Member):
     if ctx.author.id == jdm_id:
-        cur.execute("INSERT INTO test VALUES (%s, %s);", (member.id, time.now()))
+        cur.execute("INSERT INTO test VALUES (%s, %s);", (member.id, datetime.datetime.now()))
         conn.commit()
         await ctx.send('Database updated')
 
-def current_time():
-    utc_time = datetime.datetime.utcnow()
-    return pytz.utc.localize(utc_time)
 
 
 @client.event
