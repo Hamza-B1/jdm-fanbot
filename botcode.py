@@ -8,7 +8,7 @@ import datetime
 import time
 
 uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54-247-78-30.eu' \
-      '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd '
+      '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd'
 main_client = discord.Client()
 client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
