@@ -2,13 +2,30 @@ import discord
 from discord.ext import commands
 import discord.utils
 import asyncio
+import pytz
+import psycopg2
+import datetime
 import time
 
+uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54-247-78-30.eu' \
+      '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd '
 main_client = discord.Client()
 client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 jdm_id = 292626856509964288
-explicit_sites = ["pornhub.com", "xvideos.com", "bdsmlr.com", "xhcdn.com", "test.com"]
+conn = psycopg2.connect(uri, sslmode='require')
+cur = conn.cursor()
+cur.execute('CREATE TABLE test (action_id SERIAL PRIMARY KEY, member_id bigint, time timestamptz);')
+@client.command()
+async def db(ctx, member: discord.Member):
+    if ctx.author.id == jdm_id:
+        cur.execute("INSERT INTO test VALUES (%s, %s);", (member.id, time.now()))
+        conn.commit()
+        await ctx.send('Database updated')
+
+def current_time():
+    utc_time = datetime.datetime.utcnow()
+    return pytz.utc.localize(utc_time)
 
 
 @client.event
@@ -24,16 +41,6 @@ async def on_member_join(member):
         await channel.send(f'As salaam alaykum {member.mention}! To gain access to the rest of the server, '
                            f'you need to talk here for a little while '
                            f'to level up. Enjoy your stay :sunglasses::metal:')
-
-
-@client.event
-async def on_message(message):
-    muted_role = discord.utils.get(message.guild.roles, name='Muted')
-    if any(site in message.content for site in explicit_sites):
-        await message.author.add_roles(muted_role)
-        await message.delete()
-
-    await client.process_commands(message)
 
 
 @client.event
