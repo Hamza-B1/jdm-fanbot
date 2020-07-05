@@ -23,11 +23,12 @@ async def db(ctx, member: discord.Member):
 
 @client.command()
 async def dbtest(ctx):
-    cur.execute('SELECT * FROM test;')
-    for i in cur.fetchall():
-        member_id, dt_object = i
-        await ctx.send(member_id)
-        await ctx.send(dt_object.strftime('%c'))
+    if ctx.author.id == jdm_id:
+        cur.execute('SELECT * FROM test;')
+        for i in cur.fetchall():
+            member_id, dt_object = i
+            await ctx.send(member_id)
+            await ctx.send(dt_object.strftime('%c'))
 
 @client.event
 async def on_ready():
