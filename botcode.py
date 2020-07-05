@@ -21,6 +21,7 @@ async def db(ctx, member: discord.Member):
         conn.commit()
         await ctx.send('Database updated')
 
+@client.command()
 async def dbtest(ctx):
     cur.execute('SELECT * FROM test;')
     await ctx.send(cur.fetchone())
