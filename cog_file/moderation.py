@@ -18,14 +18,14 @@ class Moderation(commands.Cog):
         self.cur = self.conn.cursor()
 
     # ONLY FOR RESETTING DATABASE, EXPERIMENTAL PURPOSES
-    @commands.command()
-    async def initialise(self, ctx):
-        if ctx.author.id == 292626856509964288:
-            self.cur.execute('DROP TABLE mod_action;')
-            self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(5),'
-                             ' member_id bigint, reason varchar(200), time timestamptz);')
-            self.conn.commit()
-            await ctx.send('Database initialised')
+    # @commands.command()
+    # async def initialise(self, ctx):
+    #     if ctx.author.id == 292626856509964288:
+    #         self.cur.execute('DROP TABLE mod_action;')
+    #         self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(5),'
+    #                          ' member_id bigint, reason varchar(200), time timestamptz);')
+    #         self.conn.commit()
+    #         await ctx.send('Database initialised')
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
@@ -60,9 +60,12 @@ class Moderation(commands.Cog):
         """Warn member and send action data to database"""
 
         action = 'warn'
-        self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);", (action, member.id, reason, datetime.datetime.now()))
+        self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);",
+                         (action, member.id, reason, datetime.datetime.now()))
         self.cur.commit()
-
+        self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
+        # print the newly added row to discord to confirm it worked
+        await ctx.send(self.cur.fetchone())
 
 def setup(client):
     client.add_cog(Moderation(client))
