@@ -22,8 +22,8 @@ class Moderation(commands.Cog):
     async def initialise(self, ctx):
         if ctx.author.id == 292626856509964288:
             self.cur.execute('DROP TABLE mod_actions;')
-            self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(5),'
-                             ' member_id bigint, reason varchar(200), time timestamptz);')
+            self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(10),'
+                             ' member_id bigint, reason varchar(200), mod_id bigint, time timestamptz);')
             self.conn.commit()
             await ctx.send('Database initialised')
 
@@ -63,8 +63,8 @@ class Moderation(commands.Cog):
             await ctx.send('You cannot warn yourself!')
         else:
             action = 'warn'
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);",
-                             (action, member.id, reason, datetime.datetime.now()))
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %);",
+                             (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
@@ -72,9 +72,12 @@ class Moderation(commands.Cog):
             embed = discord.Embed(
                 title=f'{member} was warned',
                 description=f'Reason: {reason}')
+            embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f'You can inquire about and edit the reason of this moderator action using the '
                                   f'action ID: {value[0]}')
+
             await ctx.send(embed=embed)
+            await ctx.send(value)
 
 
 def setup(client):
