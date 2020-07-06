@@ -67,13 +67,16 @@ class Moderation(commands.Cog):
                              (action, member.id, reason, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
-            self.cur.execute('SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;')
+            self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
-                title=f'Action ID: {value[0]}\n{member.mention} was warned',
+                title=f'{member} was warned',
                 description=f'Reason: {reason}')
+            embed.set_footer(text=f'You can inquire about and edit the reason of this moderator action using the '
+                                  f'action ID: {value[0]}')
             await ctx.send(embed=embed)
-            # check how many warnings the user now has
+            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = member.id AND mod_action = 'warn'")
+            await ctx.send(self.fetchall())
 
 def setup(client):
     client.add_cog(Moderation(client))
