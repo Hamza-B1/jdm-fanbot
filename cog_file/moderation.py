@@ -75,8 +75,7 @@ class Moderation(commands.Cog):
             embed.set_footer(text=f'You can inquire about and edit the reason of this moderator action using the '
                                   f'action ID: {value[0]}')
             await ctx.send(embed=embed)
-            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = member.id AND mod_action = 'warn'")
-            await ctx.send(self.fetchall())
+
 
 def setup(client):
     client.add_cog(Moderation(client))
