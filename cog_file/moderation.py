@@ -57,15 +57,23 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def warn(self, ctx, member: discord.Member, *, reason=None):
 
-        """Warn member and send action data to database"""
-
-        action = 'warn'
-        self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);",
-                         (action, member.id, reason, datetime.datetime.now()))
-        self.conn.commit()
-        self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
-        self.cur.execute('SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;')
-        await ctx.send(self.cur.fetchone())
+        """Warn member and send action data to database. Cannot warn yourself"""
+        
+        if member.id == ctx.author.id:
+            await ctx.send('You cannot warn yourself!')
+        else:
+            action = 'warn'
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);",
+                             (action, member.id, reason, datetime.datetime.now()))
+            self.conn.commit()
+            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
+            self.cur.execute('SELECT * FROM Table ORDER BY action_id DESC LIMIT 1;')
+            value = self.cur.fetchone()
+            embed = discord.Embed(
+                title=f'Action ID: {value[0]}\n{member.mention} was warned',
+                description=f'Reason: {reason}')
+            await ctx.send(embed=embed)
+            # check how many warnings the user now has
 
 def setup(client):
     client.add_cog(Moderation(client))
