@@ -21,8 +21,9 @@ cur = conn.cursor()
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Loading Cogs And Printing Online Status in Log
+cog_list = ['moderation']
 
-for cog in cog_file:
+for cog in cog_list:
     client.load_extension(f'cog_file.{cog}')
     print(f'{cog} loaded')
 
