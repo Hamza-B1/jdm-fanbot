@@ -64,8 +64,9 @@ class Moderation(commands.Cog):
                          (action, member.id, reason, datetime.datetime.now()))
         self.conn.commit()
         self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
-        # print the newly added row to discord to confirm it worked
+        self.cur.execute('SELECT * FROM Table ORDER BY action_id DESC LIMIT 1;')
         await ctx.send(self.cur.fetchone())
 
 def setup(client):
     client.add_cog(Moderation(client))
+
