@@ -77,7 +77,8 @@ class Moderation(commands.Cog):
                                   f'action ID: {value[0]}')
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
-            self.cur.execute("SELECT * FROM mod_actions WHERE member_id=member.id;")
+
+            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = %s;", (member.id))
             await ctx.send('current warnings:' + self.cur.fetchall())
 
 
