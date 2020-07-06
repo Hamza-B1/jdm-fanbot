@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
                          (action, member.id, reason, datetime.datetime.now()))
         self.conn.commit()
         self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
-        self.cur.execute('SELECT * FROM Table ORDER BY action_id DESC LIMIT 1;')
+        self.cur.execute('SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;')
         await ctx.send(self.cur.fetchone())
 
 def setup(client):
