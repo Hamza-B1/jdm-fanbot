@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
             await ctx.send('You cannot warn yourself!')
         else:
             action = 'warn'
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %d, %s, %d, %s);",
                              (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
@@ -78,7 +78,7 @@ class Moderation(commands.Cog):
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
 
-            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = %d;", (member.id))
+            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%d);", (member.id))
             await ctx.send('current warnings:' + self.cur.fetchall())
 
 
