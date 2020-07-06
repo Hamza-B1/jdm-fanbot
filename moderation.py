@@ -21,7 +21,7 @@ class Moderation(commands.Cog):
     @commands.command()
     async def initialise(self, ctx):
         if ctx.author.id == 292626856509964288:
-            self.cur.execute('DROP TABLE mod_action;')
+            self.cur.execute('DROP TABLE mod_actions;')
             self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(5),'
                              ' member_id bigint, reason varchar(200), time timestamptz);')
             self.conn.commit()
