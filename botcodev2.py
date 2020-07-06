@@ -13,14 +13,14 @@ client.remove_command('help')
 jdm_id = 292626856509964288
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Database Access set-up
+# Database Access Set-up
 uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54-247-78-30.eu' \
       '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd'
 conn = psycopg2.connect(uri, sslmode='require')
 cur = conn.cursor()
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Loading Cogs And Printing Online Status in Log
+# Loading Available Cog Files and Printing Online Status in Log
 cog_list = ['moderation']
 
 for cog in cog_list:
@@ -33,6 +33,13 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name='Borgar'))
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Run bot using token
+# Basic Commands
+
+@client.command()
+async def ping(ctx):
+    await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Run Bot Using Token
 
 client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
