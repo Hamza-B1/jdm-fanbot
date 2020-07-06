@@ -79,7 +79,12 @@ class Moderation(commands.Cog):
             await ctx.send(embed=embed)
 
             self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%s) ;", (str(member.id), ))
-            await ctx.send('current warnings:' + self.cur.fetchall())
+            wstring = ''
+            for i in self.cur.fetchall():
+                wstring += self.cur.fetchall[i]
+            await ctx.send(wstring)
+
+                
 
 
 def setup(client):
