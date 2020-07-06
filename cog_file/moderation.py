@@ -78,9 +78,14 @@ class Moderation(commands.Cog):
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
             self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%s) ;", (str(member.id), ))
-            x = self.cur.fetchall()
-            for i in x:
-                await(ctx.send(i[3]))
+            x = len(self.cur.execute())
+            if x > 3:
+                await member.kick()
+                await ctx.send('Too many warnings, member was kicked')
+
+
+
+
 
 
 def setup(client):
