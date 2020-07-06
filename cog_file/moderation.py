@@ -23,7 +23,7 @@ class Moderation(commands.Cog):
         if ctx.author.id == 292626856509964288:
             self.cur.execute('DROP TABLE mod_actions;')
             self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(10),'
-                             ' member_id bigint, reason varchar(200), mod_id bigint, time timestamptz);')
+                             ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
             self.conn.commit()
             await ctx.send('Database initialised')
 
@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
             await ctx.send('You cannot warn yourself!')
         else:
             action = 'warn'
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %d, %s, %d, %s);",
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
                              (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
@@ -78,7 +78,7 @@ class Moderation(commands.Cog):
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
 
-            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = %d ;", (member.id, ))
+            self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%s) ;", (str(member.id), ))
             await ctx.send('current warnings:' + self.cur.fetchall())
 
 
