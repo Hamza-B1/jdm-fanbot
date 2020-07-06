@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
             await ctx.send('You cannot warn yourself!')
         else:
             action = 'warn'
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %);",
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
                              (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
