@@ -63,7 +63,8 @@ class Moderation(commands.Cog):
         self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s);",
                          (action, member.id, reason, datetime.datetime.now()))
         self.conn.commit()
-        self.cur.execute("SELECT * FROM mod_actions WHERE action_id = MAX(action_id);")
+        self.cur.execute("SELECT MAX(action_id) FROM mod_actions AS maximum;")
+        self.cur.execute("SELECT * FROM mod_actions WHERE action_id = maximum;")
         # print the newly added row to discord to confirm it worked
         await ctx.send(self.cur.fetchone())
 
