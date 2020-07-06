@@ -71,14 +71,14 @@ class Moderation(commands.Cog):
             value = self.cur.fetchone()
             embed = discord.Embed(
                 title=f'{member} was warned',
-                description=f'Reason: {reason}')
+                description='')
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f'Mods can inquire about this action using the '
                                   f'action ID: {value[0]}')
-
+            embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
             self.cur.execute("SELECT * FROM mod_Actions WHERE member_id = member.id")
-            await ctx.send(self.cur.fetchall())
+            await ctx.send('current warnings:' + self.cur.fetchall())
 
 
 def setup(client):
