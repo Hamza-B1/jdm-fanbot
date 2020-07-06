@@ -77,14 +77,8 @@ class Moderation(commands.Cog):
                                   f'action ID: {value[0]}')
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
-
             self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%s) ;", (str(member.id), ))
-            wstring = ''
-            for i in self.cur.fetchall():
-                wstring += self.cur.fetchall[i]
-            await ctx.send(wstring)
-
-                
+            await ctx.send(str(self.cur.fetchall()))
 
 
 def setup(client):
