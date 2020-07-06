@@ -73,11 +73,12 @@ class Moderation(commands.Cog):
                 title=f'{member} was warned',
                 description=f'Reason: {reason}')
             embed.set_thumbnail(url=member.avatar_url)
-            embed.set_footer(text=f'You can inquire about and edit the reason of this moderator action using the '
+            embed.set_footer(text=f'Mods can inquire about this action using the '
                                   f'action ID: {value[0]}')
 
             await ctx.send(embed=embed)
-            await ctx.send(value)
+            self.cur.execute("SELECT * FROM mod_Actions WHERE member_id = member.id")
+            await ctx.send(self.cur.fetchall())
 
 
 def setup(client):
