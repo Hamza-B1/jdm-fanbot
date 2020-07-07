@@ -95,10 +95,11 @@ class Moderation(commands.Cog):
             await ctx.send(embed=embed)
         else:
             embed_A = discord.Embed(title=f'Log for Action ID {action_num}')
-            embed_A.add_field(name='Type', value=f'{x[0][1]}', inline=True)
-            embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=True)
+            embed_A.add_field(name='Type |', value=f'{x[0][1]}', inline=True)
+            embed_A.add_field(name='Reason |', value=f'{x[0][3]}', inline=True)
             mod = self.client.get_user(int(x[0][4]))
             embed_A.add_field(name='Moderator', value=f'{mod}', inline=True)
+            embed_A.add_field(name='Time', value=f'{x[-1].strftime("%c")}')
             await ctx.send(embed=embed_A)
 
 
