@@ -4,6 +4,7 @@ import psycopg2
 import datetime
 import os
 import asyncio
+import concurrent.futures
 
 DB = os.environ['DATABASE_URL']
 
@@ -126,7 +127,7 @@ class Moderation(commands.Cog):
             # interface for editing action reason
             try:
                 msg = await self.client.wait_for('message', check=check, timeout=30.0)
-            except asyncio.TimeoutError:
+            except concurrent.futures._base.TimeoutError:
                 await ctx.send('Inquiry timed out.')
                 return
             else:
@@ -134,11 +135,9 @@ class Moderation(commands.Cog):
                     await ctx.send('Please enter reason...')
                     try:
                         reason = await self.client.wait_for('message', check=check, timeout=45.0)
-                    except Exception as e:
-                        await ctx.send(e)
-                    #except asyncio.TimeoutError:
-                    #    await ctx.send('Inquiry timed out.')
-                    #    return
+                    except concurrent.futures._base.TimeoutError:
+                        await ctx.send('Inquiry timed out.')
+                        return
                     else:
                         self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
                                         (reason.content, action_num))
