@@ -145,11 +145,10 @@ class Moderation(commands.Cog):
                                 await ctx.send('Inquiry updated. Thank you!')
                                 break
                     elif 'no' in msg.content:
+                        await ctx.send('Inquiry ended.')
                         break
                     else:
                         continue
-
-            await ctx.send('Inquiry ended.')
 
 
 def setup(client):
