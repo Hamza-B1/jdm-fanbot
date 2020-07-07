@@ -4,6 +4,7 @@ import discord.utils
 import asyncio
 import psycopg2
 import datetime
+import os
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
@@ -11,12 +12,13 @@ main_client = discord.Client()
 client = commands.Bot(command_prefix=';;')
 client.remove_command('help')
 jdm_id = 292626856509964288
+TOKEN = os.environ['TOKEN']
+DB = os.environ['DATABASE_URL']
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Database Access Set-up
-uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54-247-78-30.eu' \
-      '-west-1.compute.amazonaws.com:5432/d1oetbi61398rd'
-conn = psycopg2.connect(uri, sslmode='require')
+
+conn = psycopg2.connect(DB, sslmode='require')
 cur = conn.cursor()
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -42,4 +44,4 @@ async def ping(ctx):
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
 
-client.run("NDMzNjY4MzEzNTYzMDA0OTI4.XriBWg.7fb9u9IMEJocfIUFVdCCv5jlzg0")
+client.run(TOKEN)
