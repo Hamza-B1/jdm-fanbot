@@ -89,8 +89,9 @@ class Moderation(commands.Cog):
             if len(self.cur.fetchall()) > 3:
                 await member.kick()
                 embed2 = discord.Embed(title='',
-                                       description=f'Too many warnings ({len(self.cur.fetchall())}), {member} was kicked')
+                                       description=f'Too many warnings, {member} was kicked')
                 await ctx.send(embed=embed2)
+                await ctx.send(self.cur.fetchall)
 
     # @commands.command()
     # @commands.has_permissions(kick_members=True)
