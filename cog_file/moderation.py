@@ -114,7 +114,7 @@ class Moderation(commands.Cog):
             embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='')
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
-            embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=True)
+            embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             await ctx.send(embed=embed_A)
 
 
