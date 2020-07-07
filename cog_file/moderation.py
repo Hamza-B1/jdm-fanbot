@@ -140,16 +140,16 @@ class Moderation(commands.Cog):
                                 await ctx.send('Inquiry timed out.')
                                 break
                             else:
-                                self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);", (reason.content, action_num))
+                                self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
+                                                 (reason.content, action_num))
                                 self.conn.commit()
                                 await ctx.send('Inquiry updated. Thank you!')
                                 break
                     elif 'no' in msg.content:
-                        break
+                        await ctx.send('Inquiry ended')
+                        return
                     else:
                         continue
-            await ctx.send('Inquiry ended')
-
 
 
 def setup(client):
