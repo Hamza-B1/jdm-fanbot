@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 import psycopg2
 import datetime
+import os
+
+DB = os.environ['DATABASE_URL']
 
 
 class Moderation(commands.Cog):
@@ -12,9 +15,7 @@ class Moderation(commands.Cog):
         """Defining the client instance, giving database access"""
 
         self.client = client
-        self.uri = 'postgres://oshznwnnmoamqy:9b22fe118f0ade98da26f49717b8118e645941c468de967906d712420e44fd58@ec2-54' \
-                   '-247-78-30.eu-west-1.compute.amazonaws.com:5432/d1oetbi61398rd'
-        self.conn = psycopg2.connect(self.uri, sslmode='require')
+        self.conn = psycopg2.connect(DB, sslmode='require')
         self.cur = self.conn.cursor()
 
     # ONLY FOR RESETTING DATABASE, EXPERIMENTAL PURPOSES
