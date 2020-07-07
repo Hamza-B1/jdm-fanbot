@@ -1,2 +1,2 @@
 # jdm-fanbot
-Files for running jdm-fanbot
+Files for running JDM Fanbot, connected to Heroku PostgreSQL database
