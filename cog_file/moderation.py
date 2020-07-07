@@ -85,6 +85,13 @@ class Moderation(commands.Cog):
                                        description=f'Too many warnings ({len(self.cur.fetchall())}), {member} was kicked')
                 await ctx.send(embed=embed2)
 
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def inquire(self, ctx, action_num):
+        self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s); ", (action_num,))
+        await ctx.send(self.cur.fetchall())
+
+
 
 def setup(client):
     client.add_cog(Moderation(client))
