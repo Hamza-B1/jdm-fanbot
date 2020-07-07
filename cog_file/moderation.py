@@ -132,14 +132,14 @@ class Moderation(commands.Cog):
                 return
             else:
                 if 'yes' in msg.content:
-                    await ctx.send('Please enter reason or type `;;quit` to exit...')
+                    await ctx.send('Please enter reason or type `;quit` to exit...')
                     try:
                         reason = await self.client.wait_for('message', check=check, timeout=45.0)
                     except concurrent.futures._base.TimeoutError:
                         await ctx.send('Inquiry timed out.')
                         return
                     else:
-                        if reason.content.startswith(';;quit'):
+                        if reason.content.startswith(';quit'):
                             await ctx.send('Inquiry ended')
                             return
                         else:
