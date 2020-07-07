@@ -85,22 +85,39 @@ class Moderation(commands.Cog):
                                        description=f'Too many warnings ({len(self.cur.fetchall())}), {member} was kicked')
                 await ctx.send(embed=embed2)
 
+
+    # @commands.command()
+    # @commands.has_permissions(kick_members=True)
+    # async def purgewarn(self, ctx, action_num):
+    #
+    #     """Clear warning from database"""
+    #
+    #     self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn'; ", (action_num,))
+    #     x = self.cur.fetchall()
+    #     if len(x) == 3:
+
+
+
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def inquire(self, ctx, action_num):
         self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s); ", (action_num,))
         x = self.cur.fetchall()
-        if len(x) == 0:
+        # check what the cursor fetchall has found
+        if len(x) == 3:
             embed = discord.Embed(description='Action not found. Did you type the wrong number?')
             await ctx.send(embed=embed)
+            await ctx.send(str(x))
         else:
-            embed_A = discord.Embed(title=f'Log for Action ID {action_num}')
+            culprit = self.client.get_user(int(x[0][2]))
+            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description=f'{culprit}')
             embed_A.add_field(name='Type |', value=f'{x[0][1]}', inline=True)
             mod = self.client.get_user(int(x[0][4]))
             embed_A.add_field(name='Moderator |', value=f'{mod}', inline=True)
             embed_A.add_field(name='Reason |', value=f'{x[0][3]}')
             embed_A.add_field(name='Time', value=f'{x[0][-1].strftime("%c")}', inline=True)
             await ctx.send(embed=embed_A)
+            await ctx.send(str(x))
 
 
 def setup(client):
