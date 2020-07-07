@@ -128,6 +128,7 @@ class Moderation(commands.Cog):
                 msg = await self.client.wait_for('message', check=check, timeout=30.0)
             except asyncio.TimeoutError:
                 await ctx.send('Inquiry timed out.')
+                return
             else:
                 if 'yes' in msg.content:
                     await ctx.send('Please enter reason...')
@@ -138,7 +139,7 @@ class Moderation(commands.Cog):
                         return
                     else:
                         self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
-                                                (reason.content, action_num))
+                                        (reason.content, action_num))
                         self.conn.commit()
                         await ctx.send('Inquiry updated. Thank you!')
                 elif 'no' in msg.content:
