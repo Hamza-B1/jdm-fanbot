@@ -134,9 +134,11 @@ class Moderation(commands.Cog):
                     await ctx.send('Please enter reason...')
                     try:
                         reason = await self.client.wait_for('message', check=check, timeout=45.0)
-                    except asyncio.TimeoutError:
-                        await ctx.send('Inquiry timed out.')
-                        return
+                    except Exception as e:
+                        await ctx.send(e)
+                    #except asyncio.TimeoutError:
+                    #    await ctx.send('Inquiry timed out.')
+                    #    return
                     else:
                         self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
                                         (reason.content, action_num))
