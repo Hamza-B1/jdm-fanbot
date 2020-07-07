@@ -89,7 +89,16 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def inquire(self, ctx, action_num):
         self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s); ", (action_num,))
-        await ctx.send(self.cur.fetchall())
+        x = self.cur.fetchall()
+        if len(x) == 0:
+            embed = discord.Embed(description='Action not found. Did you type the wrong number?')
+            await ctx.send(embed=embed)
+        else:
+            embed_A = discord.Embed(title=f'Log for Action ID {action_num}')
+            embed_A.add_field(name='Type', value=f'{x[1]}', inline=True)
+            embed_A.add_field(name='Reason', value=f'{x[3]}', inline=True)
+            mod = self.client.get_user(int(x[4]))
+            embed_A.add_field(name='Moderator', value=f'{mod}')
 
 
 
