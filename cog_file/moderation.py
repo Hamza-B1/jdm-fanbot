@@ -98,7 +98,7 @@ class Moderation(commands.Cog):
             embed_A.add_field(name='Type', value=f'{x[0][1]}', inline=True)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=True)
             mod = self.client.get_user(int(x[0][4]))
-            embed_A.add_field(name='Moderator', value=f'{mod}')
+            embed_A.add_field(name='Moderator', value=f'{mod}', inline=True)
             await ctx.send(embed=embed_A)
 
 
