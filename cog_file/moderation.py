@@ -132,17 +132,21 @@ class Moderation(commands.Cog):
                 return
             else:
                 if 'yes' in msg.content:
-                    await ctx.send('Please enter reason...')
+                    await ctx.send('Please enter reason or type `;;quit` to exit...')
                     try:
                         reason = await self.client.wait_for('message', check=check, timeout=45.0)
                     except concurrent.futures._base.TimeoutError:
                         await ctx.send('Inquiry timed out.')
                         return
                     else:
-                        self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
+                        if reason.content.startswith(';;quit'):
+                            await ctx.send('Inquiry ended')
+                            return
+                        else:
+                            self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
                                         (reason.content, action_num))
-                        self.conn.commit()
-                        await ctx.send('Inquiry updated. Thank you!')
+                            self.conn.commit()
+                            await ctx.send('Inquiry updated. Thank you!')
                 elif 'no' in msg.content:
                     await ctx.send('Inquiry ended')
                     return
