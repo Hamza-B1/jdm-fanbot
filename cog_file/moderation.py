@@ -58,10 +58,15 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def warn(self, ctx, member: discord.Member, *, reason=None):
 
-        """Warn member and send action data to database. Cannot warn yourself"""
-
+        """Warn member and send action data to database. Cannot warn yourself or admins"""
+        mod = False
+        for i in member.roles:
+            if i.name == 'Admin' or i.name == 'Mod':
+                mod = True
         if member.id == ctx.author.id:
             await ctx.send('You cannot warn yourself!')
+        elif mod:
+            await ctx.send('You cannot warn this user!')
         else:
             action = 'warn'
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
