@@ -124,12 +124,9 @@ class Moderation(commands.Cog):
             def check(m):
                 return m.channel == ctx.channel and m.author.id == ctx.author.id
 
-            def check1(m):
-                return m.channel == ctx.channel and m.author.id == ctx.author.id and ('yes' or 'no') in m.content
-
             # interface for editing action reason
             try:
-                msg = await self.client.wait_for('message', check=check1, timeout=30.0)
+                msg = await self.client.wait_for('message', check=check, timeout=30.0)
             except asyncio.TimeoutError:
                 await ctx.send('Inquiry timed out.')
                 return
