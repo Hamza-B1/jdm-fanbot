@@ -86,13 +86,13 @@ class Moderation(commands.Cog):
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
             self.cur.execute("SELECT * FROM mod_actions WHERE member_id = (%s) ;", (str(member.id),))
-            if len(self.cur.fetchall()) > 3:
+            x = self.cur.fetchall()
+            if len(x) > 3:
                 await member.kick()
                 embed2 = discord.Embed(title='',
                                        description=f'Too many warnings, {member} was kicked')
                 await ctx.send(embed=embed2)
-                await ctx.send(self.cur.fetchall)
-                await ctx.send(len(self.cur.fetchall()))
+                await ctx.send(len(x))
 
     # @commands.command()
     # @commands.has_permissions(kick_members=True)
