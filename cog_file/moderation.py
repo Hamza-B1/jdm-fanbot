@@ -92,6 +92,7 @@ class Moderation(commands.Cog):
                                        description=f'Too many warnings, {member} was kicked')
                 await ctx.send(embed=embed2)
                 await ctx.send(self.cur.fetchall)
+                await ctx.send(len(self.cur.fetchall()))
 
     # @commands.command()
     # @commands.has_permissions(kick_members=True)
