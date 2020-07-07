@@ -124,32 +124,28 @@ class Moderation(commands.Cog):
                 return m.channel == ctx.channel and m.author.id == ctx.author.id
 
             # interface for editing action reason
-            while True:
-                try:
-                    msg = await self.client.wait_for('message', check=check, timeout=30.0)
-                except asyncio.TimeoutError:
-                    await ctx.send('Inquiry timed out.')
-                    break
-                else:
-                    if 'yes' in msg.content:
-                        await ctx.send('Please enter reason...')
-                        while True:
-                            try:
-                                reason = await self.client.wait_for('message', check=check, timeout=45.0)
-                            except asyncio.TimeoutError:
-                                await ctx.send('Inquiry timed out.')
-                                break
-                            else:
-                                self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
-                                                 (reason.content, action_num))
-                                self.conn.commit()
-                                await ctx.send('Inquiry updated. Thank you!')
-                                break
-                    elif 'no' in msg.content:
-                        await ctx.send('Inquiry ended')
+            try:
+                msg = await self.client.wait_for('message', check=check, timeout=30.0)
+            except asyncio.TimeoutError:
+                await ctx.send('Inquiry timed out.')
+            else:
+                if 'yes' in msg.content:
+                    await ctx.send('Please enter reason...')
+                    try:
+                        reason = await self.client.wait_for('message', check=check, timeout=45.0)
+                    except asyncio.TimeoutError:
+                        await ctx.send('Inquiry timed out.')
                         return
                     else:
-                        continue
+                        self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
+                                                (reason.content, action_num))
+                        self.conn.commit()
+                        await ctx.send('Inquiry updated. Thank you!')
+                elif 'no' in msg.content:
+                    await ctx.send('Inquiry ended')
+                    return
+                else:
+                    pass
 
 
 def setup(client):
