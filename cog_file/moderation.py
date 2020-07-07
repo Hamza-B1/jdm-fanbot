@@ -127,8 +127,9 @@ class Moderation(commands.Cog):
             # interface for editing action reason
             try:
                 msg = await self.client.wait_for('message', check=check, timeout=30.0)
-            except concurrent.futures._base.TimeoutError:
-                await ctx.send('Inquiry timed out.')
+            except Exception as e:
+                print(type(e))
+                await ctx.send(type(e))
                 return
             else:
                 if 'yes' in msg.content:
