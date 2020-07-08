@@ -93,7 +93,6 @@ class Moderation(commands.Cog):
                                        description=f'Too many warnings, {member} was kicked')
                 await ctx.send(embed=embed2)
 
-
     # @commands.command()
     # @commands.has_permissions(kick_members=True)
     # async def purgewarn(self, ctx, action_num):
@@ -120,7 +119,7 @@ class Moderation(commands.Cog):
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             await ctx.send(embed=embed_A)
-            await ctx.send('Would you like to edit the reason of this action? (yes/no)')
+            await ctx.send('Would you like to edit the reason of this action? (yes/no). If you enter an invalid response, the inquiry will terminate.')
 
             # check function for use while waiting for input
             def check(m):
@@ -133,7 +132,7 @@ class Moderation(commands.Cog):
                 await ctx.send('Inquiry timed out.')
                 return
             else:
-                if 'yes' in msg.content:
+                if 'yes' in msg.content.lower():
                     await ctx.send('Please enter reason or type `;quit` to exit...')
                     try:
                         reason = await self.client.wait_for('message', check=check, timeout=45.0)
@@ -149,11 +148,11 @@ class Moderation(commands.Cog):
                                         (reason.content, action_num))
                             self.conn.commit()
                             await ctx.send('Inquiry updated. Thank you!')
-                elif 'no' in msg.content:
+                elif 'no' in msg.content.lower():
                     await ctx.send('Inquiry ended')
                     return
                 else:
-                    await ctx.send('Please enter a valid choice. Inquiry ended')
+                    pass
 
 
 def setup(client):
