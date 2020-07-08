@@ -153,7 +153,7 @@ class Moderation(commands.Cog):
                     await ctx.send('Inquiry ended')
                     return
                 else:
-                    pass
+                    await ctx.send('Please enter a valid choice.')
 
 
 def setup(client):
