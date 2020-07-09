@@ -74,7 +74,7 @@ class Moderation(commands.Cog):
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
                              (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
-#            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
+            #            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
@@ -110,8 +110,6 @@ class Moderation(commands.Cog):
         else:
             await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
 
-
-
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def inquire(self, ctx, action_num):
@@ -123,12 +121,13 @@ class Moderation(commands.Cog):
         else:
             culprit = self.client.get_user(int(x[0][2]))
             mod = self.client.get_user(int(x[0][4]))
-            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='')
+            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='', colour=discord.Colour.dark_red())
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             await ctx.send(embed=embed_A)
-            await ctx.send('Would you like to edit the reason of this action? (yes/no). If you enter an invalid response, the inquiry will terminate.')
+            await ctx.send(
+                'Would you like to edit the reason of this action? (yes/no). If you enter an invalid response, the inquiry will terminate.')
 
             # check function for use while waiting for input
             def check(m):
@@ -154,7 +153,7 @@ class Moderation(commands.Cog):
                             return
                         else:
                             self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
-                                        (reason.content, action_num))
+                                             (reason.content, action_num))
                             self.conn.commit()
                             await ctx.send('Inquiry updated. Thank you!')
                 elif 'no' in msg.content.lower():
