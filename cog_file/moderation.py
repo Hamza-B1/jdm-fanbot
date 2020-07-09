@@ -74,7 +74,7 @@ class Moderation(commands.Cog):
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
                              (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
-            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
+#            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
@@ -93,15 +93,19 @@ class Moderation(commands.Cog):
                                        description=f'Too many warnings, {member} was kicked')
                 await ctx.send(embed=embed2)
 
-    # @commands.command()
-    # @commands.has_permissions(kick_members=True)
-    # async def purgewarn(self, ctx, action_num):
-    #
-    #     """Clear warning from database"""
-    #
-    #     self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn'; ", (action_num,))
-    #     x = self.cur.fetchall()
-    #     if len(x) == 3:
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def purgewarn(self, ctx, action_num):
+
+        """Clear warning from database"""
+
+        self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn'; ", (action_num,))
+        x = self.cur.fetchall()
+        if len(x) == 3:
+            self.cur.execute("DELETE FROM mod_actions WHERE action_id = (%) AND action_type = 'warn';", (action_num, ))
+            self.conn.commit()
+        else:
+            await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
