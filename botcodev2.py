@@ -52,7 +52,7 @@ async def test(ctx, member: discord.Member=None, member_id=None):
         await ctx.send(f"You used an ID {member_from_id}")
     else:
         pass
-    await ctx.send(test.__doc__)
+    print(test.__doc__)
 
 
 @client.command()
