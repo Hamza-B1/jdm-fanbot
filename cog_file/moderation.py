@@ -110,7 +110,7 @@ class Moderation(commands.Cog):
             logs = discord.utils.get(ctx.guild.channels, name='logs')
             culprit = self.client.get_user(int(x[0][2]))
             mod = self.client.get_user(int(x[0][4]))
-            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='', colour=discord.Colour.dark_red())
+            embed_A = discord.Embed(title=f'Action ID {action_num}', description=f"Warning {action_num} removed by {ctx.author}.", colour=discord.Colour.dark_red())
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
