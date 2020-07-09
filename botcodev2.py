@@ -41,6 +41,16 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
 
+# test command
+@client.command()
+async def test(ctx, member: discord.Member=None, member_id=None):
+    if member and not member_id:
+        await ctx.send(f"You used a mention {member}")
+    elif member_id and not member:
+        member_from_id = client.get_user(int(member_id))
+        await ctx.send(f"You used an ID {member_from_id}")
+    else:
+        pass
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
