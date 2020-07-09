@@ -95,7 +95,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def purgewarn(self, ctx, action_num):
+    async def purgewarn(self, ctx, action_num, new_reason=None):
 
         """Clear warning from database"""
 
@@ -114,6 +114,7 @@ class Moderation(commands.Cog):
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
+            embed_A.add_field(name='Reason For Purge', value=f"{new_reason}")
             await logs.send(embed=embed_A)
         else:
             await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
@@ -163,9 +164,9 @@ class Moderation(commands.Cog):
                             self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
                                              (reason.content, action_num))
                             self.conn.commit()
-                            await ctx.send('Inquiry updated. Thank you!')
+                            await ctx.send(f"Inquiry updated. Thank you! New reason: {reason}")
                 elif 'no' in msg.content.lower():
-                    await ctx.send('Inquiry ended')
+                    await ctx.send("Inquiry ended")
                     return
                 else:
                     pass
