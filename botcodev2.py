@@ -47,8 +47,8 @@ async def test(ctx, member: discord.Member):
     """testing various functionality"""
     try:
         int(member)
-    except TypeError:
-        ctx.send('this is an ID')
+    except Exception as e:
+        ctx.send(f'ID: error = {e}')
         user = client.get_user(int(member))
         await ctx.send(f'{user}')
     else:
