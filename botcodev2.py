@@ -47,10 +47,12 @@ async def test(ctx, member: discord.Member):
     """testing various functionality"""
     try:
         int(member)
-    except ValueError:
+    except TypeError:
         ctx.send('this is an ID')
         user = client.get_user(int(member))
-    await ctx.send(f"You used a mention {user}")
+        await ctx.send(f'{user}')
+    else:
+        await ctx.send(f"You used a mention {member}")
     print(test.__doc__)
 
 
