@@ -8,7 +8,6 @@ import concurrent.futures
 
 DB = os.environ['DATABASE_URL']
 
-
 class Moderation(commands.Cog):
     """All Moderation Commands"""
 
@@ -170,6 +169,20 @@ class Moderation(commands.Cog):
                     return
                 else:
                     pass
+
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def warnlist(self, ctx, member_id):
+        s_user = self.client.get_user(member_id)
+        if not s_user:
+            await ctx.send('User not found.')
+        else:
+            self.cur.execute("SELECT * FROM mod_actions WHERE action_type = WARN and member_id = (%s);", (member_id,))
+            x = self.cur.fetchall()
+            embed = discord.Embed(title=f'Warnings for user {s_user}', description='', colour=discord.Colour.dark_red())
+            for warn in x:
+                embed.add_field(name=f"ID: {warn[0]}", value=f"Reason: {warn[3]}\n{warn[5].strftime('%x at %H:%m')}", inline=False)
+            await ctx.send(embed=embed)
 
 
 def setup(client):
