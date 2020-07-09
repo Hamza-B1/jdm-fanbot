@@ -1,5 +1,0 @@
-stuff
-other stuff
-more stuff
-file for python I/O
-thasjf;lasf
