@@ -43,15 +43,9 @@ async def ping(ctx):
 
 # test command
 @client.command()
-async def test(ctx, member: discord.Member=None, member_id=None):
+async def test(ctx, member: discord.Member=None):
     """testing various functionality"""
-    if member and not member_id:
-        await ctx.send(f"You used a mention {member}")
-    elif member_id and not member:
-        member_from_id = client.get_user(int(member_id))
-        await ctx.send(f"You used an ID {member_from_id}")
-    else:
-        pass
+    await ctx.send(f"You used a mention {member}")
     print(test.__doc__)
 
 
