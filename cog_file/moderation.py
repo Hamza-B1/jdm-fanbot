@@ -37,7 +37,7 @@ class Moderation(commands.Cog):
         """Purge messages command, defaults to 10"""
 
         await ctx.channel.purge(limit=amount + 1)
-        embed = discord.Embed(title='', description=f'{amount} messages purged.')
+        embed = discord.Embed(title='', description=f'{amount} messages purged in {ctx.channel} by {ctx.author}.')
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
@@ -101,11 +101,8 @@ class Moderation(commands.Cog):
 
         self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn'; ", (action_num,))
         x = self.cur.fetchall()
-        if len(x) == 3:
-            self.cur.execute("DELETE FROM mod_actions WHERE action_id = (%) AND action_type = 'warn';", (action_num, ))
-            self.conn.commit()
-        else:
-            await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
+        await ctx.send(x)
+
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
