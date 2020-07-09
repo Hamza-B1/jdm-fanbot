@@ -44,6 +44,7 @@ async def ping(ctx):
 # test command
 @client.command()
 async def test(ctx, member: discord.Member=None, member_id=None):
+    """testing various functionality"""
     if member and not member_id:
         await ctx.send(f"You used a mention {member}")
     elif member_id and not member:
@@ -51,6 +52,26 @@ async def test(ctx, member: discord.Member=None, member_id=None):
         await ctx.send(f"You used an ID {member_from_id}")
     else:
         pass
+    await ctx.send(help(test))
+
+
+@client.command()
+async def rolelist(ctx, *, role):
+    """Gets a list of members of a specified role"""
+    peeps = []
+    if role.lower() in map(lambda x: x.name.lower(), ctx.guild.roles):
+        for member in ctx.guild.members:
+            for its_roles in member.roles:
+                if its_roles.name.lower() == role.lower():
+                    roles_match = its_roles
+                    peeps.append(f'{member}')
+
+        embed = discord.Embed(title=f'Role Listing for {roles_match} ', description='\n'.join(peeps),
+                              colour=discord.Colour.dark_red())
+        await ctx.send(embed=embed)
+    else:
+        embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
+        await ctx.send(embed=embed2)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
