@@ -95,7 +95,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def purgewarn(self, ctx, action_num, new_reason=None):
+    async def purgewarn(self, ctx, action_num, *, new_reason=None):
 
         """Clear warning from database"""
 
