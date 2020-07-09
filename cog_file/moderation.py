@@ -174,7 +174,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def warnlist(self, ctx, member_id):
         s_user = self.client.get_user(member_id)
-        self.cur.execute("SELECT * FROM mod_actions WHERE action_type = WARN and member_id = (%s);", (member_id,))
+        self.cur.execute("SELECT * FROM mod_actions WHERE action_type = 'warn' and member_id = (%s);", (member_id,))
         x = self.cur.fetchall()
         embed = discord.Embed(title=f'Warnings for user {s_user}', description='', colour=discord.Colour.dark_red())
         for warn in x:
