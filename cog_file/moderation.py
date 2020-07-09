@@ -101,12 +101,20 @@ class Moderation(commands.Cog):
 
         self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn'; ", (action_num,))
         x = self.cur.fetchall()
-        # check if warning exists
+        # check if warning exists then send purge to logs.
         if len(x):
             self.cur.execute("DELETE FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn';", (action_num,))
             self.conn.commit()
-            embed = discord.Embed(title='', description=f"Warning {action_num} removed.")
+            embed = discord.Embed(title='', description=f"Warning {action_num} removed by {ctx.author}.")
             await ctx.send(embed=embed)
+            logs = discord.utils.get(ctx.guild.channels, name='logs')
+            culprit = self.client.get_user(int(x[0][2]))
+            mod = self.client.get_user(int(x[0][4]))
+            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='', colour=discord.Colour.dark_red())
+            embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
+            embed_A.set_thumbnail(url=culprit.avatar_url)
+            embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
+            await logs.send(embed=embed_A)
         else:
             await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
 
