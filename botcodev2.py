@@ -41,21 +41,6 @@ async def on_ready():
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
 
-# test command
-@client.command()
-async def test(ctx, member: discord.Member):
-    """testing various functionality"""
-    try:
-        int(member)
-    except Exception as e:
-        ctx.send(f'ID: error = {e}')
-        user = client.get_user(int(member))
-        await ctx.send(f'{user}')
-    else:
-        await ctx.send(f"You used a mention {member}")
-    print(test.__doc__)
-
-
 @client.command()
 async def rolelist(ctx, *, role):
     """Gets a list of members of a specified role"""
