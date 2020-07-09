@@ -103,10 +103,11 @@ class Moderation(commands.Cog):
         x = self.cur.fetchall()
         await ctx.send(x)
         await ctx.send(type(x))
-        # if:
-        #     self.cur.execute("DELETE FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn';", (action_num,))
-        # else:
-        #     await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
+        if len(x):
+            self.cur.execute("DELETE FROM mod_actions WHERE action_id = (%s) AND action_type = 'warn';", (action_num,))
+            await ctx.send(f"Warning {action_num} removed.")
+        else:
+            await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
 
 
 
