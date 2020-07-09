@@ -176,7 +176,7 @@ class Moderation(commands.Cog):
         s_user = self.client.get_user(int(member_id))
         self.cur.execute("SELECT * FROM mod_actions WHERE action_type = 'warn' and member_id = (%s);", (member_id,))
         x = self.cur.fetchall()
-        embed = discord.Embed(title=f'Warnings for user {s_user}', description='', colour=discord.Colour.dark_red())
+        embed = discord.Embed(title=f'Warnings for {s_user}', description='', colour=discord.Colour.dark_red())
         for warn in x:
             embed.add_field(name=f"ID: {warn[0]} | Reason:", value=f"{warn[3]}\n{warn[5].strftime('%x at %H:%m')}", inline=False)
         await ctx.send(embed=embed)
