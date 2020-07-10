@@ -67,7 +67,8 @@ async def yeardemo(ctx):
     year_chart = pygal.Bar()
     year_chart.title = 'Server Members By Year'
     year_chart.x_labels = map(str, (i for i in years))
-    await ctx.send(year_chart.render_to_png())
+    x = year_chart.render_to_png()
+    await ctx.send(image=x)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
