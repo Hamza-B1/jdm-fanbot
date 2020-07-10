@@ -4,3 +4,4 @@ PyNaCl==1.4.0
 pytz
 psycopg2
 pygal
+cairosvg
