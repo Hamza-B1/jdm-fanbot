@@ -35,7 +35,7 @@ for cog in cog_list:
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
-    await client.change_presence(activity=discord.Game(name='Borgar'))
+    await client.change_presence(activity=discord.Game(name='Special thanks to Abdul C'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Basic Commands
