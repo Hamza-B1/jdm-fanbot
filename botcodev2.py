@@ -64,10 +64,9 @@ async def rolelist(ctx, *, role):
 
 @client.command()
 async def yeardemo(ctx):
-    years = ["University", "Gap Year", "Sixth Form", "GCSE"]
     year_chart = pygal.Bar()
     year_chart.title = 'Server Members By Year'
-    year_chart.x_labels = map(str, (i for i in years))
+    year_chart.x_labels = "University", "Gap Year", "Sixth Form", "GCSE"
     x = year_chart.render_to_png()
     file_obj = io.BytesIO(x)
     await ctx.send(file=discord.File(file_obj, filename='chart.png'))
