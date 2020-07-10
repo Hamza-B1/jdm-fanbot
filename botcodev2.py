@@ -68,7 +68,7 @@ async def yeardemo(ctx):
     gy = discord.utils.get(ctx.guild.roles, name='Gap Year')
     sf = discord.utils.get(ctx.guild.roles, name='Sixth Form')
     g = discord.utils.get(ctx.guild.roles, name='GCSE')
-    year_chart = pygal.Pie()
+    year_chart = pygal.HorizontalBar()
     year_chart.title = 'Server Members By Year'
     year_chart.add("University", len(uni.members))
     year_chart.add("Gap Year", len(gy.members))
