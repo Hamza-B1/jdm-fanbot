@@ -70,7 +70,7 @@ async def yeardemo(ctx):
     year_chart.x_labels = map(str, (i for i in years))
     x = year_chart.render_to_png()
     file_obj = io.BytesIO(x)
-    await ctx.send(file=discord.File(file_obj))
+    await ctx.send(file=discord.File(file_obj), filename='chart.png')
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
