@@ -7,6 +7,7 @@ import datetime
 import os
 import pygal
 import cairosvg
+import io
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
@@ -68,7 +69,8 @@ async def yeardemo(ctx):
     year_chart.title = 'Server Members By Year'
     year_chart.x_labels = map(str, (i for i in years))
     x = year_chart.render_to_png()
-    await ctx.send(file=discord.File(x))
+    file_obj = io.BytesIO(x)
+    await ctx.send(file=discord.File(file_obj))
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
