@@ -5,6 +5,8 @@ import asyncio
 import psycopg2
 import datetime
 import os
+import pygal
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
@@ -58,6 +60,14 @@ async def rolelist(ctx, *, role):
     else:
         embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
         await ctx.send(embed=embed2)
+
+@client.command()
+async def yeardemo(ctx):
+    years = ["University", "Gap Year", "Sixth Form", "GCSE"]
+    year_chart = pygal.Bar()
+    year_chart.title = 'Server Members By Year'
+    year_chart.x_labels = map(str, (i for i in years))
+    await ctx.send(year_chart.render_to_png())
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
