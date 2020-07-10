@@ -6,7 +6,7 @@ import psycopg2
 import datetime
 import os
 import pygal
-
+import cairosvg
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
