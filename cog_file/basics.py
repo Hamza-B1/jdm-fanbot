@@ -25,17 +25,10 @@ class Basics(commands.Cog):
     async def rolelist(self, ctx, *, role):
         """Gets a list of members of a specified role"""
         if role.lower() in map(lambda x: x.name.lower(), ctx.guild.roles):
-            # for member in ctx.guild.members:
-            #     for its_roles in member.roles:
-            #         if its_roles.name.lower() == role.lower():
-            #             roles_match = its_roles
-            #             peeps.append(f'{member}')
-
-            # embed = discord.Embed(title=f'Role Listing for {roles_match} ', description='\n'.join(),
-            #                       colour=discord.Colour.dark_red())
-            # await ctx.send(embed=embed)
             role_specified = discord.utils.get(ctx.guild.roles, name=(role.title()))
-            embed_list = discord.Embed(title=f"Role listing for {role.title()}", description=("\n".join(i.mention for i in role_specified.members)), colour=discord.Colour.dark_red())
+            embed_list = discord.Embed(title=f"Role listing for {role.title()}",
+                                       description=("\n".join(i.mention for i in role_specified.members)),
+                                       colour=discord.Colour.dark_red())
             await ctx.send(embed=embed_list)
         else:
             embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
@@ -43,16 +36,19 @@ class Basics(commands.Cog):
 
     @commands.command()
     async def yeardemo(self, ctx):
-        uni = discord.utils.get(ctx.guild.roles, name='University')
-        gy = discord.utils.get(ctx.guild.roles, name='Gap Year')
-        sf = discord.utils.get(ctx.guild.roles, name='Sixth Form')
-        g = discord.utils.get(ctx.guild.roles, name='GCSE')
+        names = ['University', 'Gap Year', 'Sixth Form', 'GCSE']
+        # uni = discord.utils.get(ctx.guild.roles, name='University')
+        # gy = discord.utils.get(ctx.guild.roles, name='Gap Year')
+        # sf = discord.utils.get(ctx.guild.roles, name='Sixth Form')
+        # g = discord.utils.get(ctx.guild.roles, name='GCSE')
         year_chart = pygal.HorizontalBar()
         year_chart.title = 'Server Members By Year'
-        year_chart.add("University", len(uni.members))
-        year_chart.add("Gap Year", len(gy.members))
-        year_chart.add("Sixth Form", len(sf.members))
-        year_chart.add("GCSE", len(g.members))
+        for i in names:
+            year_chart.add(i, len(discord.utils.get(ctx.guild.roles, name=i).members))
+        # year_chart.add("University", len(uni.members))
+        # year_chart.add("Gap Year", len(gy.members))
+        # year_chart.add("Sixth Form", len(sf.members))
+        # year_chart.add("GCSE", len(g.members))
         x = year_chart.render_to_png()
         file_obj = io.BytesIO(x)
         await ctx.send(file=discord.File(file_obj, filename='chart.png'))
