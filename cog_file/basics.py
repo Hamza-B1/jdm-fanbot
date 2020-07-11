@@ -24,21 +24,19 @@ class Basics(commands.Cog):
     @commands.command()
     async def rolelist(self, ctx, *, role):
         """Gets a list of members of a specified role"""
-        peeps = []
         if role.lower() in map(lambda x: x.name.lower(), ctx.guild.roles):
-            for member in ctx.guild.members:
-                for its_roles in member.roles:
-                    if its_roles.name.lower() == role.lower():
-                        roles_match = its_roles
-                        peeps.append(f'{member}')
+            # for member in ctx.guild.members:
+            #     for its_roles in member.roles:
+            #         if its_roles.name.lower() == role.lower():
+            #             roles_match = its_roles
+            #             peeps.append(f'{member}')
 
-            embedded_list = discord.Embed(title=f'Role Listing for {roles_match} ', colour=discord.Colour.dark_red())
-            for peep in peeps:
-                embedded_list.add_field(name=f'{peep}', value='')
-            #
-            # embed = discord.Embed(title=f'Role Listing for {roles_match} ', description='\n'.join(peeps),
+            # embed = discord.Embed(title=f'Role Listing for {roles_match} ', description='\n'.join(),
             #                       colour=discord.Colour.dark_red())
-            await ctx.send(embed=embedded_list)
+            # await ctx.send(embed=embed)
+            role_specified = discord.utils.get(ctx.guild.roles, name=(role.title()))
+            embed_list = discord.Embed(title=f"Role listing for {role.title()}", description=("\n".join(role_specified.members)))
+            await ctx.send(embed=embed_list)
         else:
             embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
             await ctx.send(embed=embed2)
