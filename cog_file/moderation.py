@@ -4,9 +4,18 @@ import psycopg2
 import datetime
 import os
 import asyncio
-import concurrent.futures
+import concurrent.futures  # not sure why still using this for the timeout exception but it works, do not edit unless
 
+# needed
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Defining Error Embed
+id_error = discord.Embed(title='ID Error', description='Action not found. Did you provide the correct ID?',
+                         colour=discord.Colour.dark_red())
+# ----------------------------------------------------------------------------------------------------------------------
 DB = os.environ['DATABASE_URL']
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 class Moderation(commands.Cog):
     """All Moderation Commands"""
@@ -109,14 +118,16 @@ class Moderation(commands.Cog):
             logs = discord.utils.get(ctx.guild.channels, name='logs')
             culprit = self.client.get_user(int(x[0][2]))
             mod = self.client.get_user(int(x[0][4]))
-            embed_A = discord.Embed(title=f'Action ID {action_num}', description=f"Warning {action_num} removed by {ctx.author}.", colour=discord.Colour.dark_red())
+            embed_A = discord.Embed(title=f'Action ID {action_num}',
+                                    description=f"Warning {action_num} removed by {ctx.author}.",
+                                    colour=discord.Colour.dark_red())
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             embed_A.add_field(name='Reason For Purge', value=f"{new_reason}")
             await logs.send(embed=embed_A)
         else:
-            await ctx.send("This warning doesn't exist. Are you sure you entered the correct ID?")
+            await ctx.send(embed=id_error)
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
@@ -124,12 +135,12 @@ class Moderation(commands.Cog):
         self.cur.execute("SELECT * FROM mod_actions WHERE action_id = (%s); ", (action_num,))
         x = self.cur.fetchall()
         if len(x) == 0:
-            embed = discord.Embed(description='Action not found. Did you type the wrong number?')
-            await ctx.send(embed=embed)
+            await ctx.send(embed=id_error)
         else:
             culprit = self.client.get_user(int(x[0][2]))
             mod = self.client.get_user(int(x[0][4]))
-            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='', colour=discord.Colour.dark_red())
+            embed_A = discord.Embed(title=f'Log for Action ID {action_num}', description='',
+                                    colour=discord.Colour.dark_red())
             embed_A.add_field(name=f'{culprit} {x[0][1]} by {mod}', value=f'{x[0][-1].strftime("%x at %H:%m")}')
             embed_A.set_thumbnail(url=culprit.avatar_url)
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
@@ -163,7 +174,7 @@ class Moderation(commands.Cog):
                             self.cur.execute("UPDATE mod_actions SET reason = (%s) WHERE action_id = (%s);",
                                              (reason.content, action_num))
                             self.conn.commit()
-                            await ctx.send(f"Inquiry updated. Thank you! New reason: {reason}")
+                            await ctx.send(f"Inquiry updated. Thank you! New reason: {reason.content}")
                 elif 'no' in msg.content.lower():
                     await ctx.send("Inquiry ended")
                     return
@@ -178,7 +189,8 @@ class Moderation(commands.Cog):
         x = self.cur.fetchall()
         embed = discord.Embed(title=f'Warnings for {s_user}', description='', colour=discord.Colour.dark_red())
         for warn in x:
-            embed.add_field(name=f"ID: {warn[0]} | Reason:", value=f"{warn[3]}\n{warn[5].strftime('%x at %H:%m')}", inline=False)
+            embed.add_field(name=f"ID: {warn[0]} | Reason:", value=f"{warn[3]}\n{warn[5].strftime('%x at %H:%m')}",
+                            inline=False)
         await ctx.send(embed=embed)
 
 
