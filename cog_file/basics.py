@@ -21,9 +21,8 @@ class Basics(commands.Cog):
         self.conn = psycopg2.connect(DB, sslmode='require')
         self.cur = self.conn.cursor()
 
-    @staticmethod
     @commands.command()
-    async def rolelist(ctx, *, role):
+    async def rolelist(self, ctx, *, role):
         """Gets a list of members of a specified role"""
         peeps = []
         if role.lower() in map(lambda x: x.name.lower(), ctx.guild.roles):
@@ -44,9 +43,8 @@ class Basics(commands.Cog):
             embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
             await ctx.send(embed=embed2)
 
-    @staticmethod
     @commands.command()
-    async def yeardemo(ctx):
+    async def yeardemo(self, ctx):
         uni = discord.utils.get(ctx.guild.roles, name='University')
         gy = discord.utils.get(ctx.guild.roles, name='Gap Year')
         sf = discord.utils.get(ctx.guild.roles, name='Sixth Form')
@@ -61,9 +59,8 @@ class Basics(commands.Cog):
         file_obj = io.BytesIO(x)
         await ctx.send(file=discord.File(file_obj, filename='chart.png'))
 
-    @staticmethod
     @commands.command()
-    async def study(ctx):
+    async def study(self, ctx):
         study_role = discord.utils.get(ctx.guild.roles, name='studying')
         if study_role in ctx.author.roles:
             await ctx.author.remove_roles(study_role)
