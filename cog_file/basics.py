@@ -35,7 +35,7 @@ class Basics(commands.Cog):
             #                       colour=discord.Colour.dark_red())
             # await ctx.send(embed=embed)
             role_specified = discord.utils.get(ctx.guild.roles, name=(role.title()))
-            embed_list = discord.Embed(title=f"Role listing for {role.title()}", description=("\n".join(role_specified.members)))
+            embed_list = discord.Embed(title=f"Role listing for {role.title()}", description=("\n".join(i for i in role_specified.members)))
             await ctx.send(embed=embed_list)
         else:
             embed2 = discord.Embed(title='', description=f'Role {role} not found', colour=discord.Colour.dark_red())
