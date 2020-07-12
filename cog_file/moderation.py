@@ -207,7 +207,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member_id, reason):
+    async def kick(self, ctx, member_id, *, reason=None):
         member = self.client.get_user(int(member_id))
         mod = False
         for i in member.roles:
