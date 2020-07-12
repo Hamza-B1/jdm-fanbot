@@ -95,7 +95,7 @@ class Moderation(commands.Cog):
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
-                title=f'{member.mention} was warned',
+                title=f'{member} was warned',
                 description='')
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f'Mods can inquire about this action using the '
@@ -207,8 +207,7 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member_id, *, reason=None):
-        member = self.client.get_user(int(member_id))
+    async def kick(self, ctx, member: discord.Member, *, reason=None):
         mod = False
         for i in member.roles:
             if i.name == 'Admin' or i.name == 'Mod':
@@ -219,12 +218,12 @@ class Moderation(commands.Cog):
             await ctx.send(embed=kick_error_2)
         else:
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'kick', %s, %s, %s, %s);",
-                             (member_id, reason, ctx.author.id, datetime.datetime.now()))
+                             (member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
-                title=f'{member.mention} was kicked',
+                title=f'{member} was kicked',
                 description='')
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f'Mods can inquire about this action using the '
