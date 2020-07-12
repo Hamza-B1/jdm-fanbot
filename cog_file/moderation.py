@@ -230,6 +230,7 @@ class Moderation(commands.Cog):
                                   f'action ID: {value[0]}')
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
+            await member.kick(reason=reason)
 
 def setup(client):
     client.add_cog(Moderation(client))
