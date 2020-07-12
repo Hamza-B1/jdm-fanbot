@@ -9,11 +9,22 @@ import concurrent.futures  # not sure why still using this for the timeout excep
 # needed
 
 # ----------------------------------------------------------------------------------------------------------------------
-# Defining Error Embed
+# Defining Embeds
 id_error = discord.Embed(title='ID Error', description='Action not found. Did you provide the correct ID?',
                          colour=discord.Colour.dark_red())
+warn_error_1 = discord.Embed(title='Error', description='You cannot warn yourself!',
+                             colour=discord.Colour.dark_red())
+warn_error_2 = discord.Embed(title='Error', descripton='You cannot warn this user!',
+                             colour=discord.Colour.dark_red())
+
+kick_error_1 = discord.Embed(title='Error', description='You cannot kick yourself!',
+                             colour=discord.Colour.dark_red())
+
+kick_error_2 = discord.Embed(title='Error', descripton='You cannot kick this user!',
+                             colour=discord.Colour.dark_red())
 # ----------------------------------------------------------------------------------------------------------------------
 DB = os.environ['DATABASE_URL']
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 
@@ -74,19 +85,17 @@ class Moderation(commands.Cog):
             if i.name == 'Admin' or i.name == 'Mod':
                 mod = True
         if member.id == ctx.author.id:
-            await ctx.send('You cannot warn yourself!')
+            await ctx.send(embed=warn_error_1)
         elif mod:
-            await ctx.send('You cannot warn this user!')
+            await ctx.send(embed=warn_error_2)
         else:
-            action = 'warn'
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, %s, %s, %s, %s, %s);",
-                             (action, member.id, reason, ctx.author.id, datetime.datetime.now()))
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'warn', %s, %s, %s, %s);",
+                             (member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
-            #            self.cur.execute("SELECT MAX(action_id) FROM mod_actions;")
             self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
             value = self.cur.fetchone()
             embed = discord.Embed(
-                title=f'{member} was warned',
+                title=f'{member.mention} was warned',
                 description='')
             embed.set_thumbnail(url=member.avatar_url)
             embed.set_footer(text=f'Mods can inquire about this action using the '
@@ -146,7 +155,7 @@ class Moderation(commands.Cog):
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             await ctx.send(embed=embed_A)
             await ctx.send(
-                'Would you like to edit the reason of this action? (yes/no). If you enter an invalid response, the inquiry will terminate.')
+                'Would you like to edit the reason of this action? If you enter an invalid response, the inquiry will terminate.')
 
             # check function for use while waiting for input
             def check(m):
@@ -184,6 +193,9 @@ class Moderation(commands.Cog):
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def warnlist(self, ctx, member_id):
+
+        """Gets a list of warnings that a member has"""
+
         s_user = self.client.get_user(int(member_id))
         self.cur.execute("SELECT * FROM mod_actions WHERE action_type = 'warn' and member_id = (%s);", (member_id,))
         x = self.cur.fetchall()
@@ -193,6 +205,32 @@ class Moderation(commands.Cog):
                             inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def kick(self, ctx, member_id, reason):
+        member = self.client.get_user(int(member_id))
+        mod = False
+        for i in member.roles:
+            if i.name == 'Admin' or i.name == 'Mod':
+                mod = True
+        if member.id == ctx.author.id:
+            await ctx.send(embed=kick_error_1)
+        elif mod:
+            await ctx.send(embed=kick_error_2)
+        else:
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'kick', %s, %s, %s, %s);",
+                             (member_id, reason, ctx.author.id, datetime.datetime.now()))
+            self.conn.commit()
+            self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
+            value = self.cur.fetchone()
+            embed = discord.Embed(
+                title=f'{member.mention} was kicked',
+                description='')
+            embed.set_thumbnail(url=member.avatar_url)
+            embed.set_footer(text=f'Mods can inquire about this action using the '
+                                  f'action ID: {value[0]}')
+            embed.add_field(name='Reason', value=f'{reason}', inline=True)
+            await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(Moderation(client))
