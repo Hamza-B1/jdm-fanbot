@@ -42,20 +42,6 @@ async def on_ready():
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
-@client.command()
-async def troll(ctx):
-    if ctx.author.id == jdm_id:
-        def check(m):
-            return m.author.id == jdm_id and "off" in m.content.lower()
-        while True:
-            await client.get_user(724027137832648724).send("CRINGE LMAO x")
-            time.sleep(1)
-            try:
-                cancel = client.wait_for('message', check=check, timeout=20)
-            except asyncio.TimeoutError:
-                break
-            else:
-                pass
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
