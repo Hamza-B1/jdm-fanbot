@@ -47,9 +47,8 @@ async def troll(ctx):
     if ctx.author.id == jdm_id:
         def check(m):
             return m.author.id == jdm_id and "off" in m.content.lower()
-        user = client.get_user(724027137832648724)
         while True:
-            await user.send("CRINGE LMAO x")
+            await client.get_user(724027137832648724).send("CRINGE LMAO x")
             time.sleep(1)
             try:
                 cancel = client.wait_for('message', check=check, timeout=20)
