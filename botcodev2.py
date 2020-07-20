@@ -42,7 +42,7 @@ async def on_ready():
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
- @client.command()
+@client.command()
 async def troll(ctx):
     if ctx.author.id == jdm_id:
         def check(m):
