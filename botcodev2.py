@@ -40,11 +40,11 @@ async def ping(ctx):
 
 @client.command()
 async def jointest(ctx):
-    ch = ctx.author.voice.voice_channel
+    ch = ctx.author.voice.channel
     voice_client = client.voice_clients.in_server(ctx.guild)
-    await voice_client.join_voice_channel(ch)
+    await voice_client.join_channel(ch)
     time.sleep(3)
-    await voice_client.leave_voice_channel(ch)
+    await voice_client.leave_channel(ch)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
