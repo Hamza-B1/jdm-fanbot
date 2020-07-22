@@ -1,13 +1,9 @@
 import discord
 from discord.ext import commands
-import asyncio
 import psycopg2
-import datetime
 import os
-import pygal
-import cairosvg
-import io
-
+import discord.voice_client
+import time
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
 main_client = discord.Client()
@@ -42,6 +38,14 @@ async def on_ready():
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(client.latency * 1000)}ms')
+
+@client.command()
+async def jointest(ctx):
+    ch = ctx.author.voice.voice_channel
+    voice_client = client.voice_clients.in_server(ctx.guild)
+    await voice_client.join_voice_channel(ch)
+    time.sleep(3)
+    await voice_client.leave_voice_channel(ch)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Run Bot Using Token
