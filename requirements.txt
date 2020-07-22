@@ -5,5 +5,4 @@ pytz
 psycopg2
 pygal
 cairosvg
-opus
 discord.voice_client
