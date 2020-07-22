@@ -46,3 +46,6 @@ class Voice(commands.Cog):
             await ctx.send(f"Left {channel}")
         else:
             await ctx.send("Don't think I am in a voice channel")
+
+def setup(client):
+    client.add_cog(Voice(client))
