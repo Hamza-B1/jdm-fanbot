@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import psycopg2
 import os
-import discord.voice_client
 import time
 # ----------------------------------------------------------------------------------------------------------------------
 # Declaring Important Variables and Initialising Client Instance
