@@ -6,9 +6,10 @@ import asyncio
 import pygal
 import cairosvg
 import io
+from pygal.style import Style
 
 DB = os.environ['DATABASE_URL']
-
+custom_style = Style(colors=('#00FFE8', '#4EEE4E', '#566AF3', '#BC0057'))
 
 class Basics(commands.Cog):
     """Basic Server Commands"""
@@ -37,18 +38,10 @@ class Basics(commands.Cog):
     @commands.command()
     async def yeardemo(self, ctx):
         names = ['University', 'Gap Year', 'Sixth Form', 'GCSE']
-        # uni = discord.utils.get(ctx.guild.roles, name='University')
-        # gy = discord.utils.get(ctx.guild.roles, name='Gap Year')
-        # sf = discord.utils.get(ctx.guild.roles, name='Sixth Form')
-        # g = discord.utils.get(ctx.guild.roles, name='GCSE')
-        year_chart = pygal.HorizontalBar()
+        year_chart = pygal.HorizontalBar(style=custom_style)
         year_chart.title = 'Server Members By Year'
         for i in names:
             year_chart.add(i, len(discord.utils.get(ctx.guild.roles, name=i).members))
-        # year_chart.add("University", len(uni.members))
-        # year_chart.add("Gap Year", len(gy.members))
-        # year_chart.add("Sixth Form", len(sf.members))
-        # year_chart.add("GCSE", len(g.members))
         x = year_chart.render_to_png()
         file_obj = io.BytesIO(x)
         await ctx.send(file=discord.File(file_obj, filename='chart.png'))
