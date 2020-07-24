@@ -290,7 +290,7 @@ class Moderation(commands.Cog):
         self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
         value = self.cur.fetchone()
         self.cur.execute("SELECT * FROM mod_actions ORDER BY ")
-        await ctx.send(f"Test sucess: Member muted for {total}. Action ID: {value[0]}\nUnix epoch start time{time.time()}\Unix epoch finish time {time.time() + total}")
+        await ctx.send(f"Test success: Member muted for {total}. Action ID: {value[0]}\nUnix epoch start time{time.time()}\nUnix epoch finish time {time.time() + total}")
 
 
 def setup(client):
