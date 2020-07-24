@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import psycopg2
 import datetime
+import time
 import os
 import asyncio
 import concurrent.futures  # not sure why still using this for the timeout exception but it works, do not edit unless
@@ -12,16 +13,7 @@ import concurrent.futures  # not sure why still using this for the timeout excep
 # Defining Embeds
 id_error = discord.Embed(title='ID Error', description='Action not found. Did you provide the correct ID?',
                          colour=discord.Colour.dark_red())
-warn_error_1 = discord.Embed(title='Error', description='You cannot warn yourself!',
-                             colour=discord.Colour.dark_red())
-warn_error_2 = discord.Embed(title='Error', descripton='You cannot warn this user!',
-                             colour=discord.Colour.dark_red())
 
-kick_error_1 = discord.Embed(title='Error', description='You cannot kick yourself!',
-                             colour=discord.Colour.dark_red())
-
-kick_error_2 = discord.Embed(title='Error', descripton='You cannot kick this user!',
-                             colour=discord.Colour.dark_red())
 # ----------------------------------------------------------------------------------------------------------------------
 DB = os.environ['DATABASE_URL']
 
@@ -46,8 +38,11 @@ class Moderation(commands.Cog):
             self.cur.execute('DROP TABLE mod_actions;')
             self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(12),'
                              ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
+            self.cur.execute(
+                'CREATE TABLE chrono_tasks (action_id SERIAL PRIMARY KEY, action_type varchar(20), time_start varchar(100), time_end varchar(100));')
             self.conn.commit()
             await ctx.send('Database initialised')
+
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
@@ -85,9 +80,9 @@ class Moderation(commands.Cog):
             if i.name == 'Admin' or i.name == 'Mod':
                 mod = True
         if member.id == ctx.author.id:
-            await ctx.send(embed=warn_error_1)
+            await ctx.send("You cannot warn yourself.")
         elif mod:
-            await ctx.send(embed=warn_error_2)
+            await ctx.send("You cannot warn this user.")
         else:
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'warn', %s, %s, %s, %s);",
                              (member.id, reason, ctx.author.id, datetime.datetime.now()))
@@ -155,7 +150,8 @@ class Moderation(commands.Cog):
             embed_A.add_field(name='Reason', value=f'{x[0][3]}', inline=False)
             await ctx.send(embed=embed_A)
             await ctx.send(
-                'Would you like to edit the reason of this action? If you enter an invalid response, the inquiry will terminate.')
+                'Would you like to edit the reason of this action? If you enter an invalid response, the inquiry will '
+                'terminate.')
 
             # check function for use while waiting for input
             def check(m):
@@ -213,9 +209,9 @@ class Moderation(commands.Cog):
             if i.name == 'Admin' or i.name == 'Mod':
                 mod = True
         if member.id == ctx.author.id:
-            await ctx.send(embed=kick_error_1)
+            await ctx.send("You can't kick yourself.")
         elif mod:
-            await ctx.send(embed=kick_error_2)
+            await ctx.send("You can't kick this user.")
         else:
             self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'kick', %s, %s, %s, %s);",
                              (member.id, reason, ctx.author.id, datetime.datetime.now()))
@@ -231,6 +227,71 @@ class Moderation(commands.Cog):
             embed.add_field(name='Reason', value=f'{reason}', inline=True)
             await ctx.send(embed=embed)
             await member.kick(reason=reason)
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def mute(self, ctx, member: discord.Member, *args):
+        mod = False
+        muted = False
+        for i in member.roles:
+            if i.name == 'Muted':
+                muted = True
+        for i in member.roles:
+            if i.name == 'Admin' or i.name == 'Mod':
+                mod = True
+        if member.id == ctx.author.id:
+            await ctx.send("You cannot mute yourself.")
+        elif mod:
+            await ctx.send("You cannot mute this user.")
+        elif muted:
+            await ctx.send("This user is already muted.")
+        else:
+            reason = []
+            days, hrs, mins, secs = 0, 0, 0, 0
+            for i in range(len(args)):
+                if args[i] == "-d":
+                    try:
+                        days = int(args[i + 1])
+                    except ValueError:
+                        await ctx.send("Please enter valid number of days.")
+                        return
+                elif args[i] == "-h":
+                    try:
+                        hrs = int(args[i + 1])
+                    except ValueError:
+                        await ctx.send("Please enter valid number of hours.")
+                        return
+                elif args[i] == "-m":
+                    try:
+                        mins = int(args[i + 1])
+                    except ValueError:
+                        await ctx.send("Please enter valid number of minutes")
+                        return
+                elif args[i] == "-s":
+                    try:
+                        secs = int(args[i + 1])
+                    except ValueError:
+                        await ctx.send("Please enter a valid number of seconds")
+                        return
+                elif args[i] != ("-d" or "-h" or "-m" or "-s"):
+                    if i - 1 < 0:
+                        reason.append(args[i])
+                    elif args[i - 1].isalpha():
+                        reason.append(args[i])
+            if not reason:
+                reason = None
+            else:
+                reason = " ".join(reason)
+            total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
+            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'mute', %s, %s, %s, %s);",
+                             (member.id, reason, ctx.author.id, datetime.datetime.now))
+            if total:
+                self.cur.execute("INSERT INTO chrono_tasks VALUES(DEFAULT, 'mute', %s, %s);", (time.time(), time.time() + total))
+        self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
+        value = self.cur.fetchone()
+        self.cur.execute("SELECT * FROM mod_actions ORDER BY ")
+        await ctx.send(f"Test sucess: Member muted for {total}. Action ID: {value[0]}\nUnix epoch start time{time.time()}\Unix epoch finish time {time.time() + total}")
+
 
 def setup(client):
     client.add_cog(Moderation(client))
