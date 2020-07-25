@@ -2,11 +2,14 @@ import discord
 from discord.ext import commands
 import psycopg2
 import os
-import asyncio
 import pygal
 import cairosvg
 import io
 from pygal.style import Style
+from textwrap import wrap
+from PIL import Image, ImageDraw, ImageFont
+import random
+
 
 DB = os.environ['DATABASE_URL']
 custom_style = Style(colors=('#00FFE8', '#4EEE4E', '#566AF3', '#BC0057'))
@@ -58,6 +61,18 @@ class Basics(commands.Cog):
             embed = discord.Embed(title='',
                                   description='You now have the Studying role. Go get that bread :sunglasses::metal:')
             await ctx.send(embed=embed)
+
+    @commands.command()
+    async def wojak(self, ctx, type, *args):
+        to_edit = Image.open(f"media\wojaks\\{type}\\" + random.choice(os.listdir("media\wojaks\\angry")))
+        draw = ImageDraw.Draw(to_edit)
+        arial = ImageFont.truetype("media\\arial.ttf", 28)
+        draw.text((5, 5), '\n'.join(wrap(*args, 41)), fill='black', font=arial)
+        file_obj = io.BytesIO()
+        to_edit.save(file_obj, format='png')  # img is the PIL image
+        file = discord.File(file_obj, filename="wojak.png")
+        await ctx.send(file=file)
+
 
 
 def setup(client):
