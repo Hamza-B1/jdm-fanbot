@@ -64,12 +64,12 @@ class Basics(commands.Cog):
 
     @commands.command()
     async def wojak(self, ctx, w_type, *args):
-        to_edit = Image.open("media\wojaks\\" + w_type + random.choice(os.listdir("media\wojaks\\angry")))
+        to_edit = Image.open(os.path.join("media", "wojaks", w_type, random.choice(os.listdir("wojaks"))))
         draw = ImageDraw.Draw(to_edit)
-        arial = ImageFont.truetype("media\\arial.ttf", 28)
+        arial = ImageFont.truetype(os.path.join("media", "arial.ttf"), 28)
         draw.text((5, 5), '\n'.join(wrap(*args, 41)), fill='black', font=arial)
         file_obj = io.BytesIO()
-        to_edit.save(file_obj, format='png')  # img is the PIL image
+        to_edit.save(file_obj, format='png')
         file = discord.File(file_obj, filename="wojak.png")
         await ctx.send(file=file)
 
