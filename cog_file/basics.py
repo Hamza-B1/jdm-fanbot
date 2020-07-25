@@ -64,7 +64,7 @@ class Basics(commands.Cog):
 
     @commands.command()
     async def wojak(self, ctx, w_type, *args):
-        to_edit = Image.open(r"media\wojaks\" + w_type + random.choice(os.listdir(r"media\wojaks\angry")))
+        to_edit = Image.open("media\wojaks\\" + w_type + random.choice(os.listdir("media\wojaks\\angry")))
         draw = ImageDraw.Draw(to_edit)
         arial = ImageFont.truetype("media\\arial.ttf", 28)
         draw.text((5, 5), '\n'.join(wrap(*args, 41)), fill='black', font=arial)
