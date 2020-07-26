@@ -71,8 +71,7 @@ class Basics(commands.Cog):
         draw.text((5, 5), text, fill='black', font=arial)
         file_obj = io.BytesIO()
         to_edit.save(file_obj, format='png')
-        file = discord.File(file_obj, filename="wojak.png")
-        await ctx.send(file=file)
+        await ctx.send(file=discord.File(file_obj, filename="wojak.png"))
 
 
 def setup(client):
