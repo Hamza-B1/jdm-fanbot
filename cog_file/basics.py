@@ -63,8 +63,8 @@ class Basics(commands.Cog):
             await ctx.send(embed=embed)
 
     @commands.command()
-    async def wojak(self, ctx, w_type, *args):
-        to_edit = Image.open(os.path.join("media", "wojaks", w_type, random.choice(os.listdir("wojaks"))))
+    async def wojak(self, ctx, *args):
+        to_edit = Image.open(os.path.join("media", "angry.png"))
         draw = ImageDraw.Draw(to_edit)
         arial = ImageFont.truetype(os.path.join("media", "arial.ttf"), 28)
         draw.text((5, 5), '\n'.join(wrap(*args, 41)), fill='black', font=arial)
