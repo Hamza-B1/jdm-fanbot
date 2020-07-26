@@ -65,14 +65,18 @@ class Basics(commands.Cog):
     @commands.command()
     async def wojak(self, ctx, *, args):
         to_edit = Image.open(os.path.join("media", "angry.png"))
+        text = '\n'.join(wrap(args, 38))
+        lines = text.count("\n") + 1
+        lines_to_crop = 10 - lines if 10 - lines >= 0 else 0
+        if lines_to_crop >= 0:
+            to_edit = to_edit.crop((0, 28 * lines_to_crop, 512, 768))
         draw = ImageDraw.Draw(to_edit)
-        text = '\n'.join(wrap(args, 41))
-        arial = ImageFont.truetype(os.path.join("media", "arial.ttf"), 28)
+        arial = ImageFont.truetype(os.path.join('media', 'arial.ttf'), 28)
         draw.text((5, 5), text, fill='black', font=arial)
-        file_obj = io.BytesIO()
-        file_obj.seek(0)
-        to_edit.save(file_obj, format='png')
-        await ctx.send(file=discord.File(file_obj, filename="wojak.png"))
+        buff = io.BytesIO()
+        to_edit.save(buff, format='png')
+        buff.seek(0)
+        await ctx.send(file=discord.File(buff, filename='wojak.png'))
 
 
 def setup(client):
