@@ -70,6 +70,7 @@ class Basics(commands.Cog):
         arial = ImageFont.truetype(os.path.join("media", "arial.ttf"), 28)
         draw.text((5, 5), text, fill='black', font=arial)
         file_obj = io.BytesIO()
+        file_obj.seek(0)
         to_edit.save(file_obj, format='png')
         await ctx.send(file=discord.File(file_obj, filename="wojak.png"))
 
