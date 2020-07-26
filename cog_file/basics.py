@@ -64,13 +64,13 @@ class Basics(commands.Cog):
 
     @commands.command()
     async def wojak(self, ctx, *args):
-        to_edit = Image.open(os.path.join("media", "angry.jpg"))
+        to_edit = Image.open(os.path.join("media", "angry.png"))
         draw = ImageDraw.Draw(to_edit)
         arial = ImageFont.truetype(os.path.join("media", "arial.ttf"), 28)
         draw.text((5, 5), '\n'.join(wrap(*args, 41)), fill='black', font=arial)
         file_obj = io.BytesIO()
-        to_edit.save(file_obj, format='jpg')
-        file = discord.File(file_obj, filename="wojak.jpg")
+        to_edit.save(file_obj, format='png')
+        file = discord.File(file_obj, filename="wojak.png")
         await ctx.send(file=file)
 
 
