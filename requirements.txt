@@ -5,4 +5,7 @@ pytz
 psycopg2
 pygal
 cairosvg
+numpy
+matplotlib
+
 
