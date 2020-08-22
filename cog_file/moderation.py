@@ -43,6 +43,26 @@ class Moderation(commands.Cog):
             self.conn.commit()
             await ctx.send('Database initialised')
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        def check(m):
+            return m.author == message.author and m.content == message.content
+        new_message = self.client.wait_for('message', check=check, timeout=0.8)
+        if new_message:
+            await self.client.delete_message(new_message)
+        await self.client.process_commands()
+
+    @commands.command()
+    async def initialise(self, ctx):
+        if ctx.author.id == 292626856509964288:
+            self.cur.execute("DROP TABLE chrono_tasks")
+            self.cur.execute(
+                'CREATE TABLE chrono_tasks (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
+            self.conn.commit()
+            await ctx.send('Database initialised')
+
+
+
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
@@ -283,16 +303,8 @@ class Moderation(commands.Cog):
             else:
                 reason = " ".join(reason)
             total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
-            self.cur.execute("INSERT INTO mod_actions VALUES (DEFAULT, 'mute', %s, %s, %s, %s);",
-                             (member.id, reason, ctx.author.id, datetime.datetime.now))
-            if total:
-                self.cur.execute("INSERT INTO chrono_tasks VALUES(DEFAULT, 'mute', %s, %s);", (time.time(), time.time() + total))
-        self.cur.execute("SELECT * FROM mod_actions ORDER BY action_id DESC LIMIT 1;")
-        value = self.cur.fetchone()
-        self.cur.execute("SELECT * FROM chrono_tasks ORDER BY action_id DESC LIMIT 1;")
-        await member.add_roles(discord.utils.get(ctx.guild.roles, name='Muted'))
-        await ctx.send(f"Test success: Member muted for {total}. Action ID: {value[0]}\nUnix epoch start time{time.time()}\nUnix epoch finish time {time.time() + total}")
-
+        await ctx.send(total)
+        await ctx.send(reason)
 
 
 def setup(client):
