@@ -47,10 +47,17 @@ class Moderation(commands.Cog):
     async def on_message(self, message):
         def check(m):
             return m.author == message.author and m.content == message.content
-        new_message = await self.client.wait_for('message', check=check, timeout=0.8)
-        if new_message:
+        try:
+            msg = await self.client.wait_for('message', check=check, timeout=2.0)
             await message.delete()
-            await new_message.delete()
+            await msg.delete()
+            try:
+                new_msg = await self.client.wait_for('message', check=check, timeout=1.8)
+                await new_msg.author.add_roles(discord.utils.get(message.guild.roles, name='Muted'))
+            except asyncio.TimeoutError:
+                pass
+        except asyncio.TimeoutError:
+            pass
         await self.client.process_commands()
 
     @commands.command()
@@ -61,8 +68,6 @@ class Moderation(commands.Cog):
                 'CREATE TABLE chrono_tasks (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
             self.conn.commit()
             await ctx.send('Database initialised')
-
-
 
 
     @commands.command()
