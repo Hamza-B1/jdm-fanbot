@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
             return m.author == message.author and m.content == message.content
         new_message = self.client.wait_for('message', check=check, timeout=0.8)
         if new_message:
-            await self.client.delete_message(new_message)
+            await self.client.delete_messages([new_message, message])
         await self.client.process_commands()
 
     @commands.command()
