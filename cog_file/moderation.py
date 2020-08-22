@@ -48,7 +48,7 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author == message.author and m.content == message.content
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=2.0)
+            msg = await self.client.wait_for('message', check=check, timeout=1.8)
             await message.delete()
             await msg.delete()
             try:
