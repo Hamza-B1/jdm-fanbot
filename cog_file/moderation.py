@@ -47,10 +47,10 @@ class Moderation(commands.Cog):
     async def on_message(self, message):
         def check(m):
             return m.author == message.author and m.content == message.content
-        new_message = self.client.wait_for('message', check=check, timeout=0.8)
+        new_message = await self.client.wait_for('message', check=check, timeout=0.8)
         if new_message:
-            await new_message.delete()
             await message.delete()
+            await new_message.delete()
         await self.client.process_commands()
 
     @commands.command()
