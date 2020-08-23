@@ -40,6 +40,9 @@ class Moderation(commands.Cog):
                              ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
             self.cur.execute(
                 'CREATE TABLE chrono_tasks (action_id SERIAL PRIMARY KEY, action_type varchar(20), time_start varchar(100), time_end varchar(100));')
+            self.cur.execute("DROP TABLE chrono_tasks")
+            self.cur.execute(
+                'CREATE TABLE chrono_tasks (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
             self.conn.commit()
             await ctx.send('Database initialised')
 
@@ -48,11 +51,10 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author == message.author and m.author.id != 433668313563004928
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=1.0)
-            await message.delete()
-            await msg.delete()
+            msg = await self.client.wait_for('message', check=check, timeout=1.2)
             try:
-                new_msg = await self.client.wait_for('message', check=check, timeout=1.5)
+                new_msg = await self.client.wait_for('message', check=check, timeout=1.2)
+                await self.client.delete_messages(new_msg, msg, message)
                 await new_msg.author.add_roles(discord.utils.get(message.guild.roles, name='Muted'))
                 await message.channel.send(f"{message.author.mention} was muted. Stop spamming you degenerate.")
             except asyncio.TimeoutError:
@@ -60,15 +62,6 @@ class Moderation(commands.Cog):
         except asyncio.TimeoutError:
             pass
         await self.client.process_commands()
-
-    @commands.command()
-    async def initialise(self, ctx):
-        if ctx.author.id == 292626856509964288:
-            self.cur.execute("DROP TABLE chrono_tasks")
-            self.cur.execute(
-                'CREATE TABLE chrono_tasks (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
-            self.conn.commit()
-            await ctx.send('Database initialised')
 
 
     @commands.command()
