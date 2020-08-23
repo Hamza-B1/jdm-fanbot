@@ -38,11 +38,9 @@ class Moderation(commands.Cog):
             self.cur.execute('DROP TABLE mod_actions;')
             self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(12),'
                              ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
-            self.cur.execute(
-                'CREATE TABLE chrono_tasks (action_id SERIAL PRIMARY KEY, action_type varchar(20), time_start varchar(100), time_end varchar(100));')
             self.cur.execute("DROP TABLE chrono_tasks")
             self.cur.execute(
-                'CREATE TABLE chrono_tasks (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
+                'CREATE TABLE mutes (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
             self.conn.commit()
             await ctx.send('Database initialised')
 
