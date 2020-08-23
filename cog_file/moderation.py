@@ -61,8 +61,10 @@ class Moderation(commands.Cog):
                 pass
         except asyncio.TimeoutError:
             pass
-        await self.client.process_commands()
-
+        try:
+            await self.client.process_commands()
+        except TypeError:
+            pass
 
     @commands.command()
     @commands.has_permissions(manage_messages=True)
