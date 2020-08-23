@@ -52,7 +52,9 @@ class Moderation(commands.Cog):
             msg = await self.client.wait_for('message', check=check, timeout=1.2)
             try:
                 new_msg = await self.client.wait_for('message', check=check, timeout=1.2)
-                await self.client.delete_messages(new_msg, msg, message)
+                await new_msg.delete()
+                await msg.delete()
+                await message.delete()
                 await new_msg.author.add_roles(discord.utils.get(message.guild.roles, name='Muted'))
                 await message.channel.send(f"{message.author.mention} was muted. Stop spamming you degenerate.")
             except asyncio.TimeoutError:
@@ -303,8 +305,7 @@ class Moderation(commands.Cog):
             else:
                 reason = " ".join(reason)
             total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
-        await ctx.send(total)
-        await ctx.send(reason)
+
 
 
 def setup(client):
