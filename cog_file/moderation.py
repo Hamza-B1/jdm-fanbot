@@ -54,6 +54,7 @@ class Moderation(commands.Cog):
             try:
                 new_msg = await self.client.wait_for('message', check=check, timeout=1.8)
                 await new_msg.author.add_roles(discord.utils.get(message.guild.roles, name='Muted'))
+                await message.channel.send(f"Stop spamming you degenerate {message.author.mention}")
             except asyncio.TimeoutError:
                 pass
         except asyncio.TimeoutError:
