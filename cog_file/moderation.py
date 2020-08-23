@@ -48,13 +48,13 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author == message.author and m.author.id != 433668313563004928
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=1.8)
+            msg = await self.client.wait_for('message', check=check, timeout=1.5)
             await message.delete()
             await msg.delete()
             try:
-                new_msg = await self.client.wait_for('message', check=check, timeout=1.8)
+                new_msg = await self.client.wait_for('message', check=check, timeout=1.5)
                 await new_msg.author.add_roles(discord.utils.get(message.guild.roles, name='Muted'))
-                await message.channel.send(f"Stop spamming you degenerate {message.author.mention}")
+                await message.channel.send(f"{message.author.mention} was muted. Stop spamming you degenerate.")
             except asyncio.TimeoutError:
                 pass
         except asyncio.TimeoutError:
