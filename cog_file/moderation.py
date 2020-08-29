@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
         def check(m):
             return m.author == message.author and m.author.id != 433668313563004928
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=1.2)
+            msg = await self.client.wait_for('message', check=check, timeout=1.0)
             try:
                 new_msg = await self.client.wait_for('message', check=check, timeout=1.2)
                 await new_msg.delete()
