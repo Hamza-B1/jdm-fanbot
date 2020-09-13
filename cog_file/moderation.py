@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import psycopg2
 import datetime
-from datetime import datetime
 import time
 import os
 import asyncio
