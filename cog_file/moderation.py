@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import psycopg2
 import datetime
+from datetime import datetime
 import time
 import os
 import asyncio
@@ -38,9 +39,9 @@ class Moderation(commands.Cog):
             self.cur.execute('DROP TABLE mod_actions;')
             self.cur.execute('CREATE TABLE mod_actions (action_id SERIAL PRIMARY KEY, action_type varchar(12),'
                              ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
-            self.cur.execute("DROP TABLE chrono_tasks")
+            self.cur.execute("DROP TABLE mutes")
             self.cur.execute(
-                'CREATE TABLE mutes (action_type varchar(20), time_start varchar(100), time_end varchar(100));')
+                'CREATE TABLE mutes (action_id varchar(200) time_end double);')
             self.conn.commit()
             await ctx.send('Database initialised')
 
@@ -48,8 +49,9 @@ class Moderation(commands.Cog):
     async def on_message(self, message):
         def check(m):
             return m.author == message.author and m.author.id != 433668313563004928
+
         try:
-            msg = await self.client.wait_for('message', check=check, timeout=1.0)
+            msg = await self.client.wait_for('message', check=check, timeout=1.2)
             try:
                 new_msg = await self.client.wait_for('message', check=check, timeout=1.2)
                 await new_msg.delete()
@@ -305,6 +307,8 @@ class Moderation(commands.Cog):
             else:
                 reason = " ".join(reason)
             total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
+            time_to_unmute = total + time.time()
+            await ctx.send(f"{total}, {time.gmtime(time_to_unmute)}")
 
 
 
