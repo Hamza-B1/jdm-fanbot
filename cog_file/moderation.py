@@ -41,7 +41,7 @@ class Moderation(commands.Cog):
                              ' member_id text, reason varchar(200), mod_id text, time timestamptz);')
             self.cur.execute("DROP TABLE mutes")
             self.cur.execute(
-                'CREATE TABLE mutes (action_id varchar(200) time_end double);')
+                'CREATE TABLE mutes (action_id varchar(200) time_end varchar(100));')
             self.conn.commit()
             await ctx.send('Database initialised')
 
