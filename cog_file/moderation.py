@@ -308,7 +308,7 @@ class Moderation(commands.Cog):
                 reason = " ".join(reason)
             total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
             time_to_unmute = total + time.time()
-            self.cur.excute("INSERT INTO mod_actions VALUES(DEFAULT, 'mute', %s, %s, %s, %s);",
+            self.cur.execute("INSERT INTO mod_actions VALUES(DEFAULT, 'mute', %s, %s, %s, %s);",
                             (member.id, reason, ctx.author.id, datetime.datetime.now()))
             self.conn.commit()
             value = self.cur.fetchone()
