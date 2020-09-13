@@ -308,9 +308,19 @@ class Moderation(commands.Cog):
                 reason = " ".join(reason)
             total = int(days) * 24 * 3600 + int(hrs) * 3600 + int(mins) * 60 + int(secs)
             time_to_unmute = total + time.time()
-            await ctx.send(f"{total}, {time.gmtime(time_to_unmute)}")
-
-
+            self.cur.excute("INSERT INTO mod_actions VALUES(DEFAULT, 'mute', %s, %s, %s, %s);",
+                            (member.id, reason, ctx.author.id, datetime.datetime.now()))
+            self.conn.commit()
+            value = self.cur.fetchone()
+            embed = discord.Embed(
+                title=f'{member} was muted until {datetime.datetime.fromtimestamp(time_to_unmute)}',
+                description='')
+            embed.set_thumbnail(url=member.avatar_url)
+            embed.set_footer(text=f'Mods can inquire about this action using the '
+                                  f'action ID: {value[0]}')
+            embed.add_field(name='Reason', value=f'{reason}', inline=True)
+            await ctx.send(embed=embed)
+            await member.add_roles(discord.utils.get(ctx.guild.roles, name="Muted"))
 
 def setup(client):
     client.add_cog(Moderation(client))
